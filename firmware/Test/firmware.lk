@@ -1,0 +1,13 @@
+-mjwx
+-i firmware.ihx
+-b _CODE = 0x0100
+-b _DATA = 0x8000
+-k C:\SDCC\bin\..\lib\z80
+-l z80
+crt0.rel
+main.rel
+video.rel
+glcdfont.rel
+sdcard.rel
+
+-e

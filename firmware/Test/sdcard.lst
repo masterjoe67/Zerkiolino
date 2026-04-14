@@ -1,0 +1,474 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.0 #15242 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module sdcard
+                                      6 	
+                                      7 	.optsdcc -mz80 sdcccall(1)
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _sd_write_sector2
+                                     12 	.globl _vga_pixel_fast
+                                     13 	.globl _sd_wait_ready
+                                     14 	.globl _sd_write_sector
+                                     15 	.globl _sd_read_sector
+                                     16 	.globl _vga_load_rgb333_full
+                                     17 ;--------------------------------------------------------
+                                     18 ; special function registers
+                                     19 ;--------------------------------------------------------
+                                     20 ;--------------------------------------------------------
+                                     21 ; ram data
+                                     22 ;--------------------------------------------------------
+                                     23 	.area _DATA
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area _INITIALIZED
+                                     28 ;--------------------------------------------------------
+                                     29 ; absolute external ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _DABS (ABS)
+                                     32 ;--------------------------------------------------------
+                                     33 ; global & static initialisations
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _HOME
+                                     36 	.area _GSINIT
+                                     37 	.area _GSFINAL
+                                     38 	.area _GSINIT
+                                     39 ;--------------------------------------------------------
+                                     40 ; Home
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _HOME
+                                     43 	.area _HOME
+                                     44 ;--------------------------------------------------------
+                                     45 ; code
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _CODE
+                                     48 ;sdcard.c:5: uint8_t sd_wait_ready(void) {
+                                     49 ;	---------------------------------
+                                     50 ; Function sd_wait_ready
+                                     51 ; ---------------------------------
+    00000000                         52 _sd_wait_ready::
+                                     53 ;sdcard.c:12: while ((SDSTATUS & (SD_STAT_BLK_BUSY | SD_STAT_INI_BUSY)) != 0) {
+    00000000 01 00 00         [10]   54 	ld	bc, #0x0000
+    00000003 50               [ 4]   55 	ld	d, b
+    00000004 59               [ 4]   56 	ld	e, c
+    00000005                         57 00103$:
+    00000005 3A 11 C0         [13]   58 	ld	a, (#0xc011)
+    00000008 E6 30            [ 7]   59 	and	a, #0x30
+    0000000A 28 16            [12]   60 	jr	Z, 00105$
+                                     61 ;sdcard.c:14: if (++timeout > MAX_TIMEOUT) return 0;
+    0000000C 0C               [ 4]   62 	inc	c
+    0000000D 20 04            [12]   63 	jr	NZ, 00130$
+    0000000F 04               [ 4]   64 	inc	b
+    00000010 20 01            [12]   65 	jr	NZ, 00130$
+    00000012 13               [ 6]   66 	inc	de
+    00000013                         67 00130$:
+    00000013 3E 40            [ 7]   68 	ld	a, #0x40
+    00000015 B9               [ 4]   69 	cp	a, c
+    00000016 3E 42            [ 7]   70 	ld	a, #0x42
+    00000018 98               [ 4]   71 	sbc	a, b
+    00000019 21 0F 00         [10]   72 	ld	hl, #0x000f
+    0000001C ED 52            [15]   73 	sbc	hl, de
+    0000001E 30 E5            [12]   74 	jr	NC, 00103$
+    00000020 AF               [ 4]   75 	xor	a, a
+    00000021 C9               [10]   76 	ret
+    00000022                         77 00105$:
+                                     78 ;sdcard.c:16: return 1;
+    00000022 3E 01            [ 7]   79 	ld	a, #0x01
+                                     80 ;sdcard.c:17: }
+    00000024 C9               [10]   81 	ret
+                                     82 ;sdcard.c:21: uint8_t sd_write_sector2(uint32_t lba, const uint8_t *buf) {
+                                     83 ;	---------------------------------
+                                     84 ; Function sd_write_sector2
+                                     85 ; ---------------------------------
+    00000025                         86 _sd_write_sector2::
+    00000025 F5               [11]   87 	push	af
+    00000026 D5               [11]   88 	push	de
+    00000027 E5               [11]   89 	push	hl
+    00000028 7D               [ 4]   90 	ld	a, l
+    00000029 FD 21 02 00      [14]   91 	ld	iy, #2
+    0000002D FD 39            [15]   92 	add	iy, sp
+    0000002F FD 77 02         [19]   93 	ld	2 (iy), a
+    00000032 E1               [10]   94 	pop	hl
+    00000033 FD 74 03         [19]   95 	ld	3 (iy), h
+                                     96 ;sdcard.c:22: if (!sd_wait_ready()) return 0;
+    00000036 CDr00r00         [17]   97 	call	_sd_wait_ready
+    00000039 B7               [ 4]   98 	or	a, a
+    0000003A 20 03            [12]   99 	jr	NZ, 00102$
+    0000003C AF               [ 4]  100 	xor	a, a
+    0000003D 18 44            [12]  101 	jr	00110$
+    0000003F                        102 00102$:
+                                    103 ;sdcard.c:25: SDLBA0 = (uint8_t)(lba & 0xFF);
+    0000003F FD 21 00 00      [14]  104 	ld	iy, #0
+    00000043 FD 39            [15]  105 	add	iy, sp
+    00000045 FD 7E 00         [19]  106 	ld	a, 0 (iy)
+    00000048 21 12 C0         [10]  107 	ld	hl, #0xc012
+    0000004B 77               [ 7]  108 	ld	(hl), a
+                                    109 ;sdcard.c:26: SDLBA1 = (uint8_t)((lba >> 8) & 0xFF);
+    0000004C FD 7E 01         [19]  110 	ld	a, 1 (iy)
+    0000004F 2E 13            [ 7]  111 	ld	l, #0x13
+    00000051 77               [ 7]  112 	ld	(hl), a
+                                    113 ;sdcard.c:27: SDLBA2 = (uint8_t)((lba >> 16) & 0xFF);
+    00000052 FD 7E 02         [19]  114 	ld	a, 2 (iy)
+    00000055 2E 14            [ 7]  115 	ld	l, #0x14
+    00000057 77               [ 7]  116 	ld	(hl), a
+                                    117 ;sdcard.c:28: SDLBA3 = (uint8_t)((lba >> 24) & 0xFF);
+    00000058 FD 7E 03         [19]  118 	ld	a, 3 (iy)
+    0000005B 2E 15            [ 7]  119 	ld	l, #0x15
+    0000005D 77               [ 7]  120 	ld	(hl), a
+                                    121 ;sdcard.c:30: SDCONTROL = SD_CMD_WRITE_BLOCK; // Comando WRITE (0x01)
+    0000005E 2E 11            [ 7]  122 	ld	l, #0x11
+    00000060 36 01            [10]  123 	ld	(hl), #0x01
+                                    124 ;sdcard.c:32: for (uint16_t i = 0; i < 512; i++) {
+    00000062 01 00 00         [10]  125 	ld	bc, #0x0000
+    00000065                        126 00108$:
+    00000065 78               [ 4]  127 	ld	a, b
+    00000066 D6 02            [ 7]  128 	sub	a, #0x02
+    00000068 30 16            [12]  129 	jr	NC, 00106$
+                                    130 ;sdcard.c:34: while (!(SDSTATUS & SD_STAT_TX_EMPTY));
+    0000006A                        131 00103$:
+    0000006A 3A 11 C0         [13]  132 	ld	a, (#0xc011)
+    0000006D 07               [ 4]  133 	rlca
+    0000006E 30 FA            [12]  134 	jr	NC, 00103$
+                                    135 ;sdcard.c:35: SDDATA = buf[i];
+    00000070 21 06 00         [10]  136 	ld	hl, #6
+    00000073 39               [11]  137 	add	hl, sp
+    00000074 7E               [ 7]  138 	ld	a, (hl)
+    00000075 23               [ 6]  139 	inc	hl
+    00000076 66               [ 7]  140 	ld	h, (hl)
+    00000077 6F               [ 4]  141 	ld	l, a
+    00000078 09               [11]  142 	add	hl, bc
+    00000079 7E               [ 7]  143 	ld	a, (hl)
+    0000007A 32 10 C0         [13]  144 	ld	(#0xc010),a
+                                    145 ;sdcard.c:32: for (uint16_t i = 0; i < 512; i++) {
+    0000007D 03               [ 6]  146 	inc	bc
+    0000007E 18 E5            [12]  147 	jr	00108$
+    00000080                        148 00106$:
+                                    149 ;sdcard.c:38: return sd_wait_ready(); // Aspetta la scrittura fisica dei CRC su disco
+    00000080 CDr00r00         [17]  150 	call	_sd_wait_ready
+    00000083                        151 00110$:
+                                    152 ;sdcard.c:39: }
+    00000083 C1               [10]  153 	pop	bc
+    00000084 C1               [10]  154 	pop	bc
+    00000085 E1               [10]  155 	pop	hl
+    00000086 C1               [10]  156 	pop	bc
+    00000087 E9               [ 4]  157 	jp	(hl)
+                                    158 ;sdcard.c:41: uint8_t sd_write_sector(uint32_t lba, const uint8_t *buf) {
+                                    159 ;	---------------------------------
+                                    160 ; Function sd_write_sector
+                                    161 ; ---------------------------------
+    00000088                        162 _sd_write_sector::
+    00000088 F5               [11]  163 	push	af
+    00000089 D5               [11]  164 	push	de
+    0000008A E5               [11]  165 	push	hl
+    0000008B 7D               [ 4]  166 	ld	a, l
+    0000008C FD 21 02 00      [14]  167 	ld	iy, #2
+    00000090 FD 39            [15]  168 	add	iy, sp
+    00000092 FD 77 02         [19]  169 	ld	2 (iy), a
+    00000095 E1               [10]  170 	pop	hl
+    00000096 FD 74 03         [19]  171 	ld	3 (iy), h
+                                    172 ;sdcard.c:42: if (!sd_wait_ready()) return 0;
+    00000099 CDr00r00         [17]  173 	call	_sd_wait_ready
+    0000009C B7               [ 4]  174 	or	a, a
+    0000009D 20 03            [12]  175 	jr	NZ, 00102$
+    0000009F AF               [ 4]  176 	xor	a, a
+    000000A0 18 4B            [12]  177 	jr	00113$
+    000000A2                        178 00102$:
+                                    179 ;sdcard.c:45: SDLBA0 = (uint8_t)(lba & 0xFF);
+    000000A2 FD 21 00 00      [14]  180 	ld	iy, #0
+    000000A6 FD 39            [15]  181 	add	iy, sp
+    000000A8 FD 7E 00         [19]  182 	ld	a, 0 (iy)
+    000000AB 21 12 C0         [10]  183 	ld	hl, #0xc012
+    000000AE 77               [ 7]  184 	ld	(hl), a
+                                    185 ;sdcard.c:46: SDLBA1 = (uint8_t)((lba >> 8) & 0xFF);
+    000000AF FD 7E 01         [19]  186 	ld	a, 1 (iy)
+    000000B2 2E 13            [ 7]  187 	ld	l, #0x13
+    000000B4 77               [ 7]  188 	ld	(hl), a
+                                    189 ;sdcard.c:47: SDLBA2 = (uint8_t)((lba >> 16) & 0xFF);
+    000000B5 FD 7E 02         [19]  190 	ld	a, 2 (iy)
+    000000B8 2E 14            [ 7]  191 	ld	l, #0x14
+    000000BA 77               [ 7]  192 	ld	(hl), a
+                                    193 ;sdcard.c:48: SDLBA3 = (uint8_t)((lba >> 24) & 0xFF);
+    000000BB FD 7E 03         [19]  194 	ld	a, 3 (iy)
+    000000BE 2E 15            [ 7]  195 	ld	l, #0x15
+    000000C0 77               [ 7]  196 	ld	(hl), a
+                                    197 ;sdcard.c:51: SDCONTROL = SD_CMD_WRITE_BLOCK; 
+    000000C1 2E 11            [ 7]  198 	ld	l, #0x11
+    000000C3 36 01            [10]  199 	ld	(hl), #0x01
+                                    200 ;sdcard.c:55: while (!(SDSTATUS & 0x20)); 
+    000000C5                        201 00103$:
+    000000C5 3A 11 C0         [13]  202 	ld	a, (#0xc011)
+    000000C8 CB 6F            [ 8]  203 	bit	5, a
+    000000CA 28 F9            [12]  204 	jr	Z, 00103$
+                                    205 ;sdcard.c:58: for (uint16_t i = 0; i < 512; i++) {
+    000000CC 01 00 00         [10]  206 	ld	bc, #0x0000
+    000000CF                        207 00111$:
+    000000CF 78               [ 4]  208 	ld	a, b
+    000000D0 D6 02            [ 7]  209 	sub	a, #0x02
+    000000D2 30 16            [12]  210 	jr	NC, 00109$
+                                    211 ;sdcard.c:60: while (!(SDSTATUS & SD_STAT_TX_EMPTY)); 
+    000000D4                        212 00106$:
+    000000D4 3A 11 C0         [13]  213 	ld	a, (#0xc011)
+    000000D7 07               [ 4]  214 	rlca
+    000000D8 30 FA            [12]  215 	jr	NC, 00106$
+                                    216 ;sdcard.c:61: SDDATA = buf[i];
+    000000DA 21 06 00         [10]  217 	ld	hl, #6
+    000000DD 39               [11]  218 	add	hl, sp
+    000000DE 7E               [ 7]  219 	ld	a, (hl)
+    000000DF 23               [ 6]  220 	inc	hl
+    000000E0 66               [ 7]  221 	ld	h, (hl)
+    000000E1 6F               [ 4]  222 	ld	l, a
+    000000E2 09               [11]  223 	add	hl, bc
+    000000E3 7E               [ 7]  224 	ld	a, (hl)
+    000000E4 32 10 C0         [13]  225 	ld	(#0xc010),a
+                                    226 ;sdcard.c:58: for (uint16_t i = 0; i < 512; i++) {
+    000000E7 03               [ 6]  227 	inc	bc
+    000000E8 18 E5            [12]  228 	jr	00111$
+    000000EA                        229 00109$:
+                                    230 ;sdcard.c:65: return sd_wait_ready(); 
+    000000EA CDr00r00         [17]  231 	call	_sd_wait_ready
+    000000ED                        232 00113$:
+                                    233 ;sdcard.c:66: }
+    000000ED C1               [10]  234 	pop	bc
+    000000EE C1               [10]  235 	pop	bc
+    000000EF E1               [10]  236 	pop	hl
+    000000F0 C1               [10]  237 	pop	bc
+    000000F1 E9               [ 4]  238 	jp	(hl)
+                                    239 ;sdcard.c:127: uint8_t sd_read_sector(uint32_t sector, uint8_t *buffer) {
+                                    240 ;	---------------------------------
+                                    241 ; Function sd_read_sector
+                                    242 ; ---------------------------------
+    000000F2                        243 _sd_read_sector::
+    000000F2 F5               [11]  244 	push	af
+    000000F3 F5               [11]  245 	push	af
+    000000F4 4D               [ 4]  246 	ld	c, l
+    000000F5 7C               [ 4]  247 	ld	a, h
+                                    248 ;sdcard.c:129: SDLBA0 = (sector & 0xFF);
+    000000F6 43               [ 4]  249 	ld	b, e
+    000000F7 21 12 C0         [10]  250 	ld	hl, #0xc012
+    000000FA 70               [ 7]  251 	ld	(hl), b
+                                    252 ;sdcard.c:130: SDLBA1 = (sector >> 8) & 0xFF;
+    000000FB 42               [ 4]  253 	ld	b, d
+    000000FC 2E 13            [ 7]  254 	ld	l, #0x13
+    000000FE 70               [ 7]  255 	ld	(hl), b
+                                    256 ;sdcard.c:131: SDLBA2 = (sector >> 16) & 0xFF;
+    000000FF 41               [ 4]  257 	ld	b, c
+    00000100 2E 14            [ 7]  258 	ld	l, #0x14
+    00000102 70               [ 7]  259 	ld	(hl), b
+                                    260 ;sdcard.c:132: SDLBA3 = (sector >> 24) & 0xFF;
+    00000103 2E 15            [ 7]  261 	ld	l, #0x15
+    00000105 77               [ 7]  262 	ld	(hl), a
+                                    263 ;sdcard.c:135: SDCONTROL = 0x00;
+    00000106 2E 11            [ 7]  264 	ld	l, #0x11
+    00000108 36 00            [10]  265 	ld	(hl), #0x00
+                                    266 ;sdcard.c:140: while (!(SDSTATUS & 0x40)) { // Aspetta RX_READY (Bit 6)
+    0000010A FD 21 00 00      [14]  267 	ld	iy, #0
+    0000010E FD 39            [15]  268 	add	iy, sp
+    00000110 FD 36 00 40      [19]  269 	ld	0 (iy), #0x40
+    00000114 FD 36 01 42      [19]  270 	ld	1 (iy), #0x42
+    00000118 FD 36 02 0F      [19]  271 	ld	2 (iy), #0x0f
+    0000011C FD 36 03 00      [19]  272 	ld	3 (iy), #0
+    00000120                        273 00103$:
+    00000120 3A 11 C0         [13]  274 	ld	a, (#0xc011)
+    00000123 CB 77            [ 8]  275 	bit	6, a
+    00000125 20 2E            [12]  276 	jr	NZ, 00120$
+                                    277 ;sdcard.c:141: if (--timeout == 0) return 0; // Fallito per timeout
+    00000127 21 00 00         [10]  278 	ld	hl, #0
+    0000012A 39               [11]  279 	add	hl, sp
+    0000012B 7E               [ 7]  280 	ld	a, (hl)
+    0000012C C6 FF            [ 7]  281 	add	a, #0xff
+    0000012E 77               [ 7]  282 	ld	(hl), a
+    0000012F 23               [ 6]  283 	inc	hl
+    00000130 7E               [ 7]  284 	ld	a, (hl)
+    00000131 CE FF            [ 7]  285 	adc	a, #0xff
+    00000133 77               [ 7]  286 	ld	(hl), a
+    00000134 23               [ 6]  287 	inc	hl
+    00000135 7E               [ 7]  288 	ld	a, (hl)
+    00000136 CE FF            [ 7]  289 	adc	a, #0xff
+    00000138 77               [ 7]  290 	ld	(hl), a
+    00000139 23               [ 6]  291 	inc	hl
+    0000013A 7E               [ 7]  292 	ld	a, (hl)
+    0000013B CE FF            [ 7]  293 	adc	a, #0xff
+    0000013D 77               [ 7]  294 	ld	(hl), a
+    0000013E FD 21 00 00      [14]  295 	ld	iy, #0
+    00000142 FD 39            [15]  296 	add	iy, sp
+    00000144 FD 7E 03         [19]  297 	ld	a, 3 (iy)
+    00000147 FD B6 02         [19]  298 	or	a, 2 (iy)
+    0000014A FD B6 01         [19]  299 	or	a, 1 (iy)
+    0000014D FD B6 00         [19]  300 	or	a, 0 (iy)
+    00000150 20 CE            [12]  301 	jr	NZ, 00103$
+    00000152 AF               [ 4]  302 	xor	a, a
+    00000153 18 2A            [12]  303 	jr	00113$
+                                    304 ;sdcard.c:145: for (int i = 0; i < 512; i++) {
+    00000155                        305 00120$:
+    00000155 01 00 00         [10]  306 	ld	bc, #0x0000
+    00000158                        307 00111$:
+    00000158 78               [ 4]  308 	ld	a, b
+    00000159 EE 80            [ 7]  309 	xor	a, #0x80
+    0000015B D6 82            [ 7]  310 	sub	a, #0x82
+    0000015D 30 1E            [12]  311 	jr	NC, 00109$
+                                    312 ;sdcard.c:146: while (!(SDSTATUS & 0x40)); // Aspetta che ogni singolo byte sia pronto
+    0000015F                        313 00106$:
+    0000015F 3A 11 C0         [13]  314 	ld	a, (#0xc011)
+    00000162 CB 77            [ 8]  315 	bit	6, a
+    00000164 28 F9            [12]  316 	jr	Z, 00106$
+                                    317 ;sdcard.c:147: buffer[i] = SDDATA;
+    00000166 FD 21 06 00      [14]  318 	ld	iy, #6
+    0000016A FD 39            [15]  319 	add	iy, sp
+    0000016C FD 7E 00         [19]  320 	ld	a, 0 (iy)
+    0000016F 81               [ 4]  321 	add	a, c
+    00000170 5F               [ 4]  322 	ld	e, a
+    00000171 FD 7E 01         [19]  323 	ld	a, 1 (iy)
+    00000174 88               [ 4]  324 	adc	a, b
+    00000175 57               [ 4]  325 	ld	d, a
+    00000176 3A 10 C0         [13]  326 	ld	a, (#0xc010)
+    00000179 12               [ 7]  327 	ld	(de), a
+                                    328 ;sdcard.c:145: for (int i = 0; i < 512; i++) {
+    0000017A 03               [ 6]  329 	inc	bc
+    0000017B 18 DB            [12]  330 	jr	00111$
+    0000017D                        331 00109$:
+                                    332 ;sdcard.c:149: return 1;
+    0000017D 3E 01            [ 7]  333 	ld	a, #0x01
+    0000017F                        334 00113$:
+                                    335 ;sdcard.c:150: }
+    0000017F C1               [10]  336 	pop	bc
+    00000180 C1               [10]  337 	pop	bc
+    00000181 E1               [10]  338 	pop	hl
+    00000182 C1               [10]  339 	pop	bc
+    00000183 E9               [ 4]  340 	jp	(hl)
+                                    341 ;sdcard.c:153: void vga_load_rgb333_full(uint32_t start_lba) {
+                                    342 ;	---------------------------------
+                                    343 ; Function vga_load_rgb333_full
+                                    344 ; ---------------------------------
+    00000184                        345 _vga_load_rgb333_full::
+    00000184 DD E5            [15]  346 	push	ix
+    00000186 DD 21 00 00      [14]  347 	ld	ix,#0
+    0000018A DD 39            [15]  348 	add	ix,sp
+    0000018C FD 21 F2 FD      [14]  349 	ld	iy, #-526
+    00000190 FD 39            [15]  350 	add	iy, sp
+    00000192 FD F9            [10]  351 	ld	sp, iy
+    00000194 DD 73 F6         [19]  352 	ld	-10 (ix), e
+    00000197 DD 72 F7         [19]  353 	ld	-9 (ix), d
+    0000019A DD 75 F8         [19]  354 	ld	-8 (ix), l
+    0000019D DD 74 F9         [19]  355 	ld	-7 (ix), h
+                                    356 ;sdcard.c:156: uint16_t x = 0;
+    000001A0 AF               [ 4]  357 	xor	a, a
+    000001A1 DD 77 FA         [19]  358 	ld	-6 (ix), a
+    000001A4 DD 77 FB         [19]  359 	ld	-5 (ix), a
+                                    360 ;sdcard.c:157: uint16_t y = 0;
+    000001A7 AF               [ 4]  361 	xor	a, a
+    000001A8 DD 77 FE         [19]  362 	ld	-2 (ix), a
+    000001AB DD 77 FF         [19]  363 	ld	-1 (ix), a
+                                    364 ;sdcard.c:160: for (uint16_t s = 0; s < 1200; s++) {
+    000001AE AF               [ 4]  365 	xor	a, a
+    000001AF DD 77 FC         [19]  366 	ld	-4 (ix), a
+    000001B2 DD 77 FD         [19]  367 	ld	-3 (ix), a
+    000001B5                        368 00111$:
+    000001B5 DD 7E FC         [19]  369 	ld	a, -4 (ix)
+    000001B8 DD 46 FD         [19]  370 	ld	b, -3 (ix)
+    000001BB D6 B0            [ 7]  371 	sub	a, #0xb0
+    000001BD 78               [ 4]  372 	ld	a, b
+    000001BE DE 04            [ 7]  373 	sbc	a, #0x04
+    000001C0 D2r6Fr02         [10]  374 	jp	NC, 00113$
+                                    375 ;sdcard.c:161: if (!sd_read_sector(current_lba, buffer)) {
+    000001C3 21 00 00         [10]  376 	ld	hl, #0
+    000001C6 39               [11]  377 	add	hl, sp
+    000001C7 E5               [11]  378 	push	hl
+    000001C8 DD 5E F6         [19]  379 	ld	e, -10 (ix)
+    000001CB DD 56 F7         [19]  380 	ld	d, -9 (ix)
+    000001CE DD 6E F8         [19]  381 	ld	l, -8 (ix)
+    000001D1 DD 66 F9         [19]  382 	ld	h, -7 (ix)
+    000001D4 CDrF2r00         [17]  383 	call	_sd_read_sector
+    000001D7 B7               [ 4]  384 	or	a, a
+    000001D8 CAr6Fr02         [10]  385 	jp	Z, 00113$
+                                    386 ;sdcard.c:167: for (uint16_t i = 0; i < 512; i += 2) {
+    000001DB AF               [ 4]  387 	xor	a, a
+    000001DC DD 77 F2         [19]  388 	ld	-14 (ix), a
+    000001DF DD 77 F3         [19]  389 	ld	-13 (ix), a
+    000001E2                        390 00108$:
+    000001E2 DD 7E F2         [19]  391 	ld	a, -14 (ix)
+    000001E5 DD 77 F4         [19]  392 	ld	-12 (ix), a
+    000001E8 DD 7E F3         [19]  393 	ld	a, -13 (ix)
+    000001EB DD 77 F5         [19]  394 	ld	-11 (ix), a
+    000001EE D6 02            [ 7]  395 	sub	a, #0x02
+    000001F0 30 5F            [12]  396 	jr	NC, 00121$
+                                    397 ;sdcard.c:169: uint8_t byte_alto = buffer[i+1];
+    000001F2 DD 4E F4         [19]  398 	ld	c, -12 (ix)
+    000001F5 DD 46 F5         [19]  399 	ld	b, -11 (ix)
+    000001F8 03               [ 6]  400 	inc	bc
+    000001F9 21 00 00         [10]  401 	ld	hl, #0
+    000001FC 39               [11]  402 	add	hl, sp
+    000001FD 09               [11]  403 	add	hl, bc
+    000001FE 4E               [ 7]  404 	ld	c, (hl)
+                                    405 ;sdcard.c:170: uint8_t byte_basso = buffer[i];
+    000001FF DD 5E F2         [19]  406 	ld	e, -14 (ix)
+    00000202 DD 56 F3         [19]  407 	ld	d, -13 (ix)
+    00000205 21 00 00         [10]  408 	ld	hl, #0
+    00000208 39               [11]  409 	add	hl, sp
+    00000209 19               [11]  410 	add	hl, de
+    0000020A 5E               [ 7]  411 	ld	e, (hl)
+                                    412 ;sdcard.c:173: uint16_t color = ((uint16_t)byte_alto << 8) | byte_basso;
+    0000020B 41               [ 4]  413 	ld	b, c
+    0000020C 4B               [ 4]  414 	ld	c, e
+                                    415 ;sdcard.c:174: vga_pixel_fast(x, y, color);
+    0000020D C5               [11]  416 	push	bc
+    0000020E DD 5E FE         [19]  417 	ld	e, -2 (ix)
+    00000211 DD 56 FF         [19]  418 	ld	d, -1 (ix)
+    00000214 DD 6E FA         [19]  419 	ld	l, -6 (ix)
+    00000217 DD 66 FB         [19]  420 	ld	h, -5 (ix)
+    0000021A CDr00r00         [17]  421 	call	_vga_pixel_fast
+                                    422 ;sdcard.c:177: x++;
+    0000021D DD 34 FA         [23]  423 	inc	-6 (ix)
+    00000220 20 03            [12]  424 	jr	NZ, 00159$
+    00000222 DD 34 FB         [23]  425 	inc	-5 (ix)
+    00000225                        426 00159$:
+                                    427 ;sdcard.c:178: if (x >= 640) {
+    00000225 DD 7E FA         [19]  428 	ld	a, -6 (ix)
+    00000228 DD 46 FB         [19]  429 	ld	b, -5 (ix)
+    0000022B D6 80            [ 7]  430 	sub	a, #0x80
+    0000022D 78               [ 4]  431 	ld	a, b
+    0000022E DE 02            [ 7]  432 	sbc	a, #0x02
+    00000230 38 0F            [12]  433 	jr	C, 00109$
+                                    434 ;sdcard.c:179: x = 0;
+    00000232 AF               [ 4]  435 	xor	a, a
+    00000233 DD 77 FA         [19]  436 	ld	-6 (ix), a
+    00000236 DD 77 FB         [19]  437 	ld	-5 (ix), a
+                                    438 ;sdcard.c:180: y++;
+    00000239 DD 34 FE         [23]  439 	inc	-2 (ix)
+    0000023C 20 03            [12]  440 	jr	NZ, 00160$
+    0000023E DD 34 FF         [23]  441 	inc	-1 (ix)
+    00000241                        442 00160$:
+    00000241                        443 00109$:
+                                    444 ;sdcard.c:167: for (uint16_t i = 0; i < 512; i += 2) {
+    00000241 DD 4E F4         [19]  445 	ld	c, -12 (ix)
+    00000244 DD 46 F5         [19]  446 	ld	b, -11 (ix)
+    00000247 03               [ 6]  447 	inc	bc
+    00000248 03               [ 6]  448 	inc	bc
+    00000249 DD 71 F2         [19]  449 	ld	-14 (ix), c
+    0000024C DD 70 F3         [19]  450 	ld	-13 (ix), b
+    0000024F 18 91            [12]  451 	jr	00108$
+    00000251                        452 00121$:
+                                    453 ;sdcard.c:184: current_lba++; // Prossimo settore
+    00000251 DD 34 F6         [23]  454 	inc	-10 (ix)
+    00000254 20 0D            [12]  455 	jr	NZ, 00161$
+    00000256 DD 34 F7         [23]  456 	inc	-9 (ix)
+    00000259 20 08            [12]  457 	jr	NZ, 00161$
+    0000025B DD 34 F8         [23]  458 	inc	-8 (ix)
+    0000025E 20 03            [12]  459 	jr	NZ, 00161$
+    00000260 DD 34 F9         [23]  460 	inc	-7 (ix)
+    00000263                        461 00161$:
+                                    462 ;sdcard.c:160: for (uint16_t s = 0; s < 1200; s++) {
+    00000263 DD 34 FC         [23]  463 	inc	-4 (ix)
+    00000266 C2rB5r01         [10]  464 	jp	NZ, 00111$
+    00000269 DD 34 FD         [23]  465 	inc	-3 (ix)
+    0000026C C3rB5r01         [10]  466 	jp	00111$
+    0000026F                        467 00113$:
+                                    468 ;sdcard.c:186: }
+    0000026F DD F9            [10]  469 	ld	sp, ix
+    00000271 DD E1            [14]  470 	pop	ix
+    00000273 C9               [10]  471 	ret
+                                    472 	.area _CODE
+                                    473 	.area _INITIALIZER
+                                    474 	.area _CABS (ABS)

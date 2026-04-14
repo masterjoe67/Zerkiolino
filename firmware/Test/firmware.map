@@ -1,0 +1,380 @@
+ASxxxx Linker V03.00/V05.40 + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           divunsigned
+     00000000  l__BSS                          
+     00000000  l__CABS                         
+     00000000  l__DABS                         
+     00000000  l__HEADER                       
+     00000000  l__HEAP                         
+     00000000  s__CABS                         
+     00000000  s__DABS                         
+     00000000  s__HEADER                       
+     00000000  s__HEADER0                      
+     00000001  l__GSFINAL                      
+     00000007  l__INITIALIZED                  
+     00000007  l__INITIALIZER                  
+     0000000D  l__HEADER0                      
+     0000000F  l__GSINIT                       
+     00000100  s__CODE                         
+     00000228  l__DATA                         
+     00000BFB  l__HOME                         
+     00003F0E  l__CODE                         
+     0000400E  s__GSINIT                       
+     0000401D  s__GSFINAL                      
+     00008000  s__DATA                         
+     00008228  s__INITIALIZED                  
+     0000822F  s__BSS                          
+     0000822F  s__HEAP                         
+     0000822F  s__HOME                         
+     00008E2A  s__INITIALIZER                  
+ASxxxx Linker V03.00/V05.40 + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000100    00003F0E =       16142. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000029B  _get_sin                           main
+     000002A7  _cube_vertices                     main
+     000002D7  _edges                             main
+     000002EF  _sin_lut                           main
+     000004EF  _get_cos                           main
+     000004FD  _update_cube                       main
+     00000789  _test_sd_card                      main
+     000009A1  _draw_mandelbrot                   main
+     00000CB3  _main                              main
+     00000D1D  _chr_f16_20                        video
+     00000D2D  _chr_f16_21                        video
+     00000D3D  _chr_f16_22                        video
+     00000D4D  _chr_f16_23                        video
+     00000D5D  _chr_f16_24                        video
+     00000D6D  _chr_f16_25                        video
+     00000D7D  _chr_f16_26                        video
+     00000D8D  _chr_f16_27                        video
+     00000D9D  _chr_f16_28                        video
+     00000DAD  _chr_f16_29                        video
+     00000DBD  _chr_f16_2A                        video
+     00000DCD  _chr_f16_2B                        video
+     00000DDD  _chr_f16_2C                        video
+     00000DED  _chr_f16_2D                        video
+     00000DFD  _chr_f16_2E                        video
+     00000E0D  _chr_f16_2F                        video
+     00000E1D  _chr_f16_30                        video
+     00000E2D  _chr_f16_31                        video
+     00000E3D  _chr_f16_32                        video
+     00000E4D  _chr_f16_33                        video
+     00000E5D  _chr_f16_34                        video
+     00000E6D  _chr_f16_35                        video
+     00000E7D  _chr_f16_36                        video
+     00000E8D  _chr_f16_37                        video
+     00000E9D  _chr_f16_38                        video
+     00000EAD  _chr_f16_39                        video
+     00000EBD  _chr_f16_3A                        video
+     00000ECD  _chr_f16_3B                        video
+     00000EDD  _chr_f16_3C                        video
+     00000EED  _chr_f16_3D                        video
+     00000EFD  _chr_f16_3E                        video
+     00000F0D  _chr_f16_3F                        video
+     00000F1D  _chr_f16_40                        video
+     00000F2D  _chr_f16_41                        video
+     00000F3D  _chr_f16_42                        video
+     00000F4D  _chr_f16_43                        video
+     00000F5D  _chr_f16_44                        video
+     00000F6D  _chr_f16_45                        video
+     00000F7D  _chr_f16_46                        video
+     00000F8D  _chr_f16_47                        video
+     00000F9D  _chr_f16_48                        video
+ASxxxx Linker V03.00/V05.40 + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000100    00003F0E =       16142. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000FAD  _chr_f16_49                        video
+     00000FBD  _chr_f16_4A                        video
+     00000FCD  _chr_f16_4B                        video
+     00000FDD  _chr_f16_4C                        video
+     00000FED  _chr_f16_4D                        video
+     0000100D  _chr_f16_4E                        video
+     0000101D  _chr_f16_4F                        video
+     0000102D  _chr_f16_50                        video
+     0000103D  _chr_f16_51                        video
+     0000104D  _chr_f16_52                        video
+     0000105D  _chr_f16_53                        video
+     0000106D  _chr_f16_54                        video
+     0000107D  _chr_f16_55                        video
+     0000108D  _chr_f16_56                        video
+     0000109D  _chr_f16_57                        video
+     000010BD  _chr_f16_58                        video
+     000010CD  _chr_f16_59                        video
+     000010DD  _chr_f16_5A                        video
+     000010ED  _chr_f16_5B                        video
+     000010FD  _chr_f16_5C                        video
+     0000110D  _chr_f16_5D                        video
+     0000111D  _chr_f16_5E                        video
+     0000113D  _chr_f16_5F                        video
+     0000115D  _chr_f16_60                        video
+     0000116D  _chr_f16_61                        video
+     0000117D  _chr_f16_62                        video
+     0000118D  _chr_f16_63                        video
+     0000119D  _chr_f16_64                        video
+     000011AD  _chr_f16_65                        video
+     000011BD  _chr_f16_66                        video
+     000011CD  _chr_f16_67                        video
+     000011DD  _chr_f16_68                        video
+     000011ED  _chr_f16_69                        video
+     000011FD  _chr_f16_6A                        video
+     0000120D  _chr_f16_6B                        video
+     0000121D  _chr_f16_6C                        video
+     0000122D  _chr_f16_6D                        video
+     0000123D  _chr_f16_6E                        video
+     0000124D  _chr_f16_6F                        video
+     0000125D  _chr_f16_70                        video
+     0000126D  _chr_f16_71                        video
+     0000127D  _chr_f16_72                        video
+     0000128D  _chr_f16_73                        video
+     0000129D  _chr_f16_74                        video
+     000012AD  _chr_f16_75                        video
+     000012BD  _chr_f16_76                        video
+     000012CD  _chr_f16_77                        video
+     000012DD  _chr_f16_78                        video
+     000012ED  _chr_f16_79                        video
+     000012FD  _chr_f16_7A                        video
+     0000130D  _chr_f16_7B                        video
+ASxxxx Linker V03.00/V05.40 + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000100    00003F0E =       16142. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000131D  _chr_f16_7C                        video
+     0000132D  _chr_f16_7D                        video
+     0000133D  _chr_f16_7E                        video
+     0000134D  _chr_f16_7F                        video
+     0000135D  _widtbl_f16                        video
+     000013BD  _chrtbl_f16                        video
+     000015E4  _swap_int16                        video
+     00001610  _video_config                      video
+     00001622  _vga_set_cursor                    video
+     0000162A  _vga_setTextFont                   video
+     00001633  _vga_setTextSize                   video
+     00001642  _vga_setTextColor                  video
+     0000164A  _vga_pixel_fast                    video
+     0000168D  _test_fill                         video
+     000016FA  _vga_clear_screen                  video
+     0000176C  _vga_fillRect                      video
+     00001849  _vga_drawCharGL                    video
+     00001A55  _vga_fillRect_fast                 video
+     00001AD9  _vga_drawChar                      video
+     00001F23  _vga_printAt                       video
+     00001FFF  _vga_drawFastHLine                 video
+     000020CC  _vga_drawFastVLine                 video
+     0000216F  _vga_drawRect                      video
+     00002223  _vga_fillCircle                    video
+     000023DB  _vga_drawLine                      video
+     0000262C  _vga_printCenteredX                video
+     00002763  _vga_FillTriangle                  video
+     00002A62  _vga_Print                         video
+     00002A6D  _vga_Print_int16                   video
+     00002B02  _vga_print_float                   video
+     00002BD2  _vga_print_hex8                    video
+     00002C64  _vga_print_int                     video
+     00002D32  _vga_print_int_safe                video
+     00002E5C  _vga_write                         video
+     0000301F  _vga_drawLine_Clipped              video
+     0000343F  _draw_rgb_bars                     video
+     00003512  _font                              glcdfont
+     00003A0D  _sd_wait_ready                     sdcard
+     00003A32  _sd_write_sector2                  sdcard
+     00003A95  _sd_write_sector                   sdcard
+     00003AFF  _sd_read_sector                    sdcard
+     00003B91  _vga_load_rgb333_full              sdcard
+     00003C81  __muluschar                        mulchar
+     00003C87  __mulsuchar                        mulchar
+     00003C8D  __mulschar                         mulchar
+     00003C99  _abs                               abs
+     00003CA2  __mulint                           mul
+     00003CA4  __mul16                            mul
+     00003CB9  _strlen                            strlen
+     00003F4D  __modschar                         modsigned
+     00003F55  __modsint                          modsigned
+ASxxxx Linker V03.00/V05.40 + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00000100    00003F0E =       16142. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00003F5B  __divschar                         divsigned
+     00003F5D  __div8                             divsigned
+     00003F61  __div_signexte                     divsigned
+     00003F65  __div16                            divsigned
+     00003F65  __divsint                          divsigned
+     00003F8B  __get_remainder                    divsigned
+     00003F95  ___mulsint2slong                   __mulsint2slong
+     00003FC3  ___muluint2ulong                   __mulsint2slong
+     00003FDA  __divuchar                         divunsigned
+     00003FDC  __divu8                            divunsigned
+     00003FDF  __divu16                           divunsigned
+     00003FDF  __divuint                          divunsigned
+
+ASxxxx Linker V03.00/V05.40 + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_HEADER0                            00000000    0000000D =          13. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00/V05.40 + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_GSINIT                             0000400E    0000000F =          15. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00/V05.40 + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_GSFINAL                            0000401D    00000001 =           1. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00/V05.40 + sdld,  page 9.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_DATA                               00008000    00000228 =         552. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00008000  _old_projected                     main
+     00008010  _sector_buffer                     main
+     00008210  _textcolor                         video
+     00008212  _textbgcolor                       video
+     00008214  _fontsloaded                       video
+     00008216  _addr_row                          video
+     00008218  _addr_col                          video
+     0000821A  _cursor_x                          video
+     0000821C  _cursor_y                          video
+     0000821E  _win_xe                            video
+     00008220  _win_ye                            video
+     00008222  _padX                              video
+     00008224  _textfont                          video
+     00008225  _textsize                          video
+     00008226  _textdatum                         video
+     00008227  _rotation                          video
+
+ASxxxx Linker V03.00/V05.40 + sdld,  page 10.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZED                        00008228    00000007 =           7. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00008228  _first_frame                       main
+     00008229  __width                            video
+     0000822B  __height                           video
+     0000822D  __rotation                         video
+     0000822E  _textwrap                          video
+
+ASxxxx Linker V03.00/V05.40 + sdld,  page 11.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_HOME                               0000822F    00000BFB =        3067. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000822F  ___fssub                           _fssub
+     00008257  ___fsmul                           _fsmul
+     00008656  ___fs2ulong                        _fs2ulong
+     0000872D  ___ulong2fs                        _ulong2fs
+     000087D7  ___fslt                            _fslt
+     000088D5  ___fsadd                           _fsadd
+     00008CC1  ___sint2fs                         _sint2fs
+     00008CC9  ___fs2sint                         _fs2sint
+     00008CFD  ___fsdiv                           _fsdiv
+     00008DBD  ___fs2uchar                        _fs2uchar
+     00008DCF  ___uchar2fs                        _uchar2fs
+     00008DD7  ___fs2slong                        _fs2slong
+     00008E0B  ___slong2fs                        _slong2fs
+
+ASxxxx Linker V03.00/V05.40 + sdld,  page 12.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZER                        00008E2A    00000007 =           7. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00/V05.40 + sdld,  page 13.
+
+Files Linked                              [ module(s) ]
+
+crt0.rel                                  [ crt0 ]
+main.rel                                  [ main ]
+video.rel                                 [ video ]
+glcdfont.rel                              [ glcdfont ]
+sdcard.rel                                [ sdcard ]
+
+
+Libraries Linked                          [ object file ]
+
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fssub.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fsmul.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fs2ulong.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _ulong2fs.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ mulchar.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ abs.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fslt.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ mul.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fsadd.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _sint2fs.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fs2sint.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ strlen.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fsdiv.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fs2uchar.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _uchar2fs.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ modsigned.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ divsigned.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ __mulsint2slong.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _fs2slong.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ _slong2fs.rel ]
+C:\SDCC\bin\..\lib\z80/z80.lib            [ divunsigned.rel ]
+
+ASxxxx Linker V03.00/V05.40 + sdld,  page 14.
+
+User Base Address Definitions
+
+_CODE = 0x0100
+_DATA = 0x8000
+
+

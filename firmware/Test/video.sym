@@ -1,0 +1,228 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    ___fs2sint                                                      ******** GX
+    ___fs2uchar                                                     ******** GX
+    ___fs2ulong                                                     ******** GX
+    ___fsdiv                                                        ******** GX
+    ___fslt                                                         ******** GX
+    ___fsmul                                                        ******** GX
+    ___fssub                                                        ******** GX
+    ___sint2fs                                                      ******** GX
+  0 ___str_0                                                        00001E15 R
+  0 ___str_1                                                        00001E17 R
+  0 ___str_10                                                       00002168 R
+  0 ___str_2                                                        00001EE5 R
+  0 ___str_3                                                        00001EE7 R
+  0 ___str_5                                                        0000203A R
+  0 ___str_6                                                        0000203C R
+  0 ___str_7                                                        0000203E R
+  0 ___str_8                                                        00002164 R
+  0 ___str_9                                                        00002166 R
+    ___uchar2fs                                                     ******** GX
+    ___ulong2fs                                                     ******** GX
+    __divsint                                                       ******** GX
+  2 __height                                                        00000002 GR
+    __modsint                                                       ******** GX
+    __mulint                                                        ******** GX
+    __muluschar                                                     ******** GX
+  2 __rotation                                                      00000004 GR
+  2 __width                                                         00000000 GR
+  7 __xinit___height                                                00000002 R
+  7 __xinit___rotation                                              00000004 R
+  7 __xinit___width                                                 00000000 R
+  7 __xinit__textwrap                                               00000005 R
+    _abs                                                            ******** GX
+  1 _addr_col                                                       00000008 GR
+  1 _addr_row                                                       00000006 GR
+  0 _alu_add                                                        000007F5 R
+  0 _alu_div                                                        00000864 R
+  0 _alu_get_32                                                     00000794 R
+  0 _alu_get_mod                                                    000008A9 R
+  0 _alu_mul_fp                                                     0000083F R
+  0 _alu_set_params                                                 00000000 R
+  0 _alu_shl                                                        000008B3 R
+  0 _alu_shr                                                        000008D7 R
+  0 _alu_sub                                                        0000081A R
+  0 _chr_f16_20                                                     00000034 GR
+  0 _chr_f16_21                                                     00000044 GR
+  0 _chr_f16_22                                                     00000054 GR
+  0 _chr_f16_23                                                     00000064 GR
+  0 _chr_f16_24                                                     00000074 GR
+  0 _chr_f16_25                                                     00000084 GR
+  0 _chr_f16_26                                                     00000094 GR
+  0 _chr_f16_27                                                     000000A4 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 2
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+  0 _chr_f16_28                                                     000000B4 GR
+  0 _chr_f16_29                                                     000000C4 GR
+  0 _chr_f16_2A                                                     000000D4 GR
+  0 _chr_f16_2B                                                     000000E4 GR
+  0 _chr_f16_2C                                                     000000F4 GR
+  0 _chr_f16_2D                                                     00000104 GR
+  0 _chr_f16_2E                                                     00000114 GR
+  0 _chr_f16_2F                                                     00000124 GR
+  0 _chr_f16_30                                                     00000134 GR
+  0 _chr_f16_31                                                     00000144 GR
+  0 _chr_f16_32                                                     00000154 GR
+  0 _chr_f16_33                                                     00000164 GR
+  0 _chr_f16_34                                                     00000174 GR
+  0 _chr_f16_35                                                     00000184 GR
+  0 _chr_f16_36                                                     00000194 GR
+  0 _chr_f16_37                                                     000001A4 GR
+  0 _chr_f16_38                                                     000001B4 GR
+  0 _chr_f16_39                                                     000001C4 GR
+  0 _chr_f16_3A                                                     000001D4 GR
+  0 _chr_f16_3B                                                     000001E4 GR
+  0 _chr_f16_3C                                                     000001F4 GR
+  0 _chr_f16_3D                                                     00000204 GR
+  0 _chr_f16_3E                                                     00000214 GR
+  0 _chr_f16_3F                                                     00000224 GR
+  0 _chr_f16_40                                                     00000234 GR
+  0 _chr_f16_41                                                     00000244 GR
+  0 _chr_f16_42                                                     00000254 GR
+  0 _chr_f16_43                                                     00000264 GR
+  0 _chr_f16_44                                                     00000274 GR
+  0 _chr_f16_45                                                     00000284 GR
+  0 _chr_f16_46                                                     00000294 GR
+  0 _chr_f16_47                                                     000002A4 GR
+  0 _chr_f16_48                                                     000002B4 GR
+  0 _chr_f16_49                                                     000002C4 GR
+  0 _chr_f16_4A                                                     000002D4 GR
+  0 _chr_f16_4B                                                     000002E4 GR
+  0 _chr_f16_4C                                                     000002F4 GR
+  0 _chr_f16_4D                                                     00000304 GR
+  0 _chr_f16_4E                                                     00000324 GR
+  0 _chr_f16_4F                                                     00000334 GR
+  0 _chr_f16_50                                                     00000344 GR
+  0 _chr_f16_51                                                     00000354 GR
+  0 _chr_f16_52                                                     00000364 GR
+  0 _chr_f16_53                                                     00000374 GR
+  0 _chr_f16_54                                                     00000384 GR
+  0 _chr_f16_55                                                     00000394 GR
+  0 _chr_f16_56                                                     000003A4 GR
+  0 _chr_f16_57                                                     000003B4 GR
+  0 _chr_f16_58                                                     000003D4 GR
+  0 _chr_f16_59                                                     000003E4 GR
+  0 _chr_f16_5A                                                     000003F4 GR
+  0 _chr_f16_5B                                                     00000404 GR
+  0 _chr_f16_5C                                                     00000414 GR
+  0 _chr_f16_5D                                                     00000424 GR
+  0 _chr_f16_5E                                                     00000434 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 3
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+  0 _chr_f16_5F                                                     00000454 GR
+  0 _chr_f16_60                                                     00000474 GR
+  0 _chr_f16_61                                                     00000484 GR
+  0 _chr_f16_62                                                     00000494 GR
+  0 _chr_f16_63                                                     000004A4 GR
+  0 _chr_f16_64                                                     000004B4 GR
+  0 _chr_f16_65                                                     000004C4 GR
+  0 _chr_f16_66                                                     000004D4 GR
+  0 _chr_f16_67                                                     000004E4 GR
+  0 _chr_f16_68                                                     000004F4 GR
+  0 _chr_f16_69                                                     00000504 GR
+  0 _chr_f16_6A                                                     00000514 GR
+  0 _chr_f16_6B                                                     00000524 GR
+  0 _chr_f16_6C                                                     00000534 GR
+  0 _chr_f16_6D                                                     00000544 GR
+  0 _chr_f16_6E                                                     00000554 GR
+  0 _chr_f16_6F                                                     00000564 GR
+  0 _chr_f16_70                                                     00000574 GR
+  0 _chr_f16_71                                                     00000584 GR
+  0 _chr_f16_72                                                     00000594 GR
+  0 _chr_f16_73                                                     000005A4 GR
+  0 _chr_f16_74                                                     000005B4 GR
+  0 _chr_f16_75                                                     000005C4 GR
+  0 _chr_f16_76                                                     000005D4 GR
+  0 _chr_f16_77                                                     000005E4 GR
+  0 _chr_f16_78                                                     000005F4 GR
+  0 _chr_f16_79                                                     00000604 GR
+  0 _chr_f16_7A                                                     00000614 GR
+  0 _chr_f16_7B                                                     00000624 GR
+  0 _chr_f16_7C                                                     00000634 GR
+  0 _chr_f16_7D                                                     00000644 GR
+  0 _chr_f16_7E                                                     00000654 GR
+  0 _chr_f16_7F                                                     00000664 GR
+  0 _chrtbl_f16                                                     000006D4 GR
+  1 _cursor_x                                                       0000000A GR
+  1 _cursor_y                                                       0000000C GR
+  0 _draw_rgb_bars                                                  00002756 GR
+    _font                                                           ******** GX
+  1 _fontsloaded                                                    00000004 GR
+  1 _padX                                                           00000012 GR
+  1 _rotation                                                       00000017 GR
+    _strlen                                                         ******** GX
+  0 _swap_int16                                                     000008FB GR
+  0 _test_fill                                                      000009A4 GR
+  1 _textbgcolor                                                    00000002 GR
+  1 _textcolor                                                      00000000 GR
+  1 _textdatum                                                      00000016 GR
+  1 _textfont                                                       00000014 GR
+  1 _textsize                                                       00000015 GR
+  2 _textwrap                                                       00000005 GR
+  0 _vga_FillTriangle                                               00001A7A GR
+  0 _vga_Print                                                      00001D79 GR
+  0 _vga_Print_int16                                                00001D84 GR
+  0 _vga_clear_screen                                               00000A11 GR
+  0 _vga_drawChar                                                   00000DF0 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 4
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+  0 _vga_drawCharGL                                                 00000B60 GR
+  0 _vga_drawFastHLine                                              00001316 GR
+  0 _vga_drawFastVLine                                              000013E3 GR
+  0 _vga_drawLine                                                   000016F2 GR
+  0 _vga_drawLine_Clipped                                           00002336 GR
+  0 _vga_drawRect                                                   00001486 GR
+  0 _vga_fillCircle                                                 0000153A GR
+  0 _vga_fillRect                                                   00000A83 GR
+  0 _vga_fillRect_fast                                              00000D6C GR
+  0 _vga_pixel_fast                                                 00000961 GR
+  0 _vga_printAt                                                    0000123A GR
+  0 _vga_printCenteredX                                             00001943 GR
+  0 _vga_print_float                                                00001E19 GR
+  0 _vga_print_hex8                                                 00001EE9 GR
+  0 _vga_print_int                                                  00001F7B GR
+  0 _vga_print_int_safe                                             00002049 GR
+  0 _vga_print_int_safe_powers10_10000_258                          0000213C R
+  0 _vga_setTextColor                                               00000959 GR
+  0 _vga_setTextFont                                                00000941 GR
+  0 _vga_setTextSize                                                0000094A GR
+  0 _vga_set_cursor                                                 00000939 GR
+  0 _vga_write                                                      00002173 GR
+  0 _video_config                                                   00000927 GR
+  0 _widtbl_f16                                                     00000674 GR
+  1 _win_xe                                                         0000000E GR
+  1 _win_ye                                                         00000010 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 5
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size     2829   flags    0
+   1 _DATA                                      size       18   flags    0
+   2 _INITIALIZED                               size        6   flags    0
+   3 _DABS                                      size        0   flags    8
+   4 _HOME                                      size        0   flags    0
+   5 _GSINIT                                    size        0   flags    0
+   6 _GSFINAL                                   size        0   flags    0
+   7 _INITIALIZER                               size        6   flags    0
+   8 _CABS                                      size        0   flags    8
+

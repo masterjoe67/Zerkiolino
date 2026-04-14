@@ -1,0 +1,198 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2022  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 248 320)
+	(text "dso_video_subsystem" (rect 5 0 97 12)(font "Arial" ))
+	(text "inst" (rect 8 288 20 300)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk_cpu" (rect 0 0 30 12)(font "Arial" ))
+		(text "clk_cpu" (rect 21 27 51 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "clk_sync" (rect 0 0 36 12)(font "Arial" ))
+		(text "clk_sync" (rect 21 43 57 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "clk_vga" (rect 0 0 31 12)(font "Arial" ))
+		(text "clk_vga" (rect 21 59 52 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 1))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "clk_pixel" (rect 0 0 33 12)(font "Arial" ))
+		(text "clk_pixel" (rect 21 75 54 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 1))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "reset_n" (rect 0 0 30 12)(font "Arial" ))
+		(text "reset_n" (rect 21 91 51 103)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "vga_cs" (rect 0 0 30 12)(font "Arial" ))
+		(text "vga_cs" (rect 21 107 51 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 1))
+	)
+	(port
+		(pt 0 128)
+		(input)
+		(text "vga_we" (rect 0 0 31 12)(font "Arial" ))
+		(text "vga_we" (rect 21 123 52 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 1))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "vga_addr[3..0]" (rect 0 0 59 12)(font "Arial" ))
+		(text "vga_addr[3..0]" (rect 21 139 80 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 3))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "vga_wdata[7..0]" (rect 0 0 63 12)(font "Arial" ))
+		(text "vga_wdata[7..0]" (rect 21 155 84 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 232 32)
+		(output)
+		(text "vga_rdata[7..0]" (rect 0 0 61 12)(font "Arial" ))
+		(text "vga_rdata[7..0]" (rect 150 27 211 39)(font "Arial" ))
+		(line (pt 232 32)(pt 216 32)(line_width 3))
+	)
+	(port
+		(pt 232 48)
+		(output)
+		(text "sdram_busy" (rect 0 0 51 12)(font "Arial" ))
+		(text "sdram_busy" (rect 160 43 211 55)(font "Arial" ))
+		(line (pt 232 48)(pt 216 48)(line_width 1))
+	)
+	(port
+		(pt 232 64)
+		(output)
+		(text "vga_hsync" (rect 0 0 46 12)(font "Arial" ))
+		(text "vga_hsync" (rect 165 59 211 71)(font "Arial" ))
+		(line (pt 232 64)(pt 216 64)(line_width 1))
+	)
+	(port
+		(pt 232 80)
+		(output)
+		(text "vga_vsync" (rect 0 0 47 12)(font "Arial" ))
+		(text "vga_vsync" (rect 164 75 211 87)(font "Arial" ))
+		(line (pt 232 80)(pt 216 80)(line_width 1))
+	)
+	(port
+		(pt 232 96)
+		(output)
+		(text "vga_rgb[8..0]" (rect 0 0 54 12)(font "Arial" ))
+		(text "vga_rgb[8..0]" (rect 157 91 211 103)(font "Arial" ))
+		(line (pt 232 96)(pt 216 96)(line_width 3))
+	)
+	(port
+		(pt 232 112)
+		(output)
+		(text "dram_clk" (rect 0 0 37 12)(font "Arial" ))
+		(text "dram_clk" (rect 174 107 211 119)(font "Arial" ))
+		(line (pt 232 112)(pt 216 112)(line_width 1))
+	)
+	(port
+		(pt 232 128)
+		(output)
+		(text "dram_cke" (rect 0 0 41 12)(font "Arial" ))
+		(text "dram_cke" (rect 170 123 211 135)(font "Arial" ))
+		(line (pt 232 128)(pt 216 128)(line_width 1))
+	)
+	(port
+		(pt 232 144)
+		(output)
+		(text "dram_cs_n" (rect 0 0 47 12)(font "Arial" ))
+		(text "dram_cs_n" (rect 164 139 211 151)(font "Arial" ))
+		(line (pt 232 144)(pt 216 144)(line_width 1))
+	)
+	(port
+		(pt 232 160)
+		(output)
+		(text "dram_ras_n" (rect 0 0 50 12)(font "Arial" ))
+		(text "dram_ras_n" (rect 161 155 211 167)(font "Arial" ))
+		(line (pt 232 160)(pt 216 160)(line_width 1))
+	)
+	(port
+		(pt 232 176)
+		(output)
+		(text "dram_cas_n" (rect 0 0 51 12)(font "Arial" ))
+		(text "dram_cas_n" (rect 160 171 211 183)(font "Arial" ))
+		(line (pt 232 176)(pt 216 176)(line_width 1))
+	)
+	(port
+		(pt 232 192)
+		(output)
+		(text "dram_we_n" (rect 0 0 48 12)(font "Arial" ))
+		(text "dram_we_n" (rect 163 187 211 199)(font "Arial" ))
+		(line (pt 232 192)(pt 216 192)(line_width 1))
+	)
+	(port
+		(pt 232 208)
+		(output)
+		(text "dram_ba[1..0]" (rect 0 0 55 12)(font "Arial" ))
+		(text "dram_ba[1..0]" (rect 156 203 211 215)(font "Arial" ))
+		(line (pt 232 208)(pt 216 208)(line_width 3))
+	)
+	(port
+		(pt 232 224)
+		(output)
+		(text "dram_addr[12..0]" (rect 0 0 68 12)(font "Arial" ))
+		(text "dram_addr[12..0]" (rect 143 219 211 231)(font "Arial" ))
+		(line (pt 232 224)(pt 216 224)(line_width 3))
+	)
+	(port
+		(pt 232 240)
+		(output)
+		(text "dram_dqm[1..0]" (rect 0 0 63 12)(font "Arial" ))
+		(text "dram_dqm[1..0]" (rect 148 235 211 247)(font "Arial" ))
+		(line (pt 232 240)(pt 216 240)(line_width 3))
+	)
+	(port
+		(pt 232 256)
+		(bidir)
+		(text "dram_dq[15..0]" (rect 0 0 60 12)(font "Arial" ))
+		(text "dram_dq[15..0]" (rect 151 251 211 263)(font "Arial" ))
+		(line (pt 232 256)(pt 216 256)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 216 288)(line_width 1))
+	)
+)

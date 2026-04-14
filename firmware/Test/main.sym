@@ -1,0 +1,83 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+  0 ___str_0                                                        0000076E R
+  0 ___str_1                                                        0000078F R
+  0 ___str_10                                                       00000849 R
+  0 ___str_11                                                       0000086C R
+  0 ___str_12                                                       00000883 R
+  0 ___str_2                                                        000007B3 R
+  0 ___str_3                                                        000007B5 R
+  0 ___str_4                                                        000007C1 R
+  0 ___str_5                                                        000007D3 R
+  0 ___str_6                                                        000007E8 R
+  0 ___str_7                                                        000007FE R
+  0 ___str_8                                                        0000082A R
+  0 ___str_9                                                        0000082D R
+    __divsint                                                       ******** GX
+    __mulint                                                        ******** GX
+  7 __xinit__first_frame                                            00000000 R
+  0 _alu_add                                                        00000095 R
+  0 _alu_div                                                        00000104 R
+  0 _alu_get_32                                                     00000034 R
+  0 _alu_get_mod                                                    00000149 R
+  0 _alu_mul_fp                                                     000000DF R
+  0 _alu_set_params                                                 00000000 R
+  0 _alu_shl                                                        00000153 R
+  0 _alu_shr                                                        00000177 R
+  0 _alu_sub                                                        000000BA R
+  0 _cube_vertices                                                  000001A7 GR
+  0 _draw_mandelbrot                                                000008A1 GR
+  0 _edges                                                          000001D7 GR
+  2 _first_frame                                                    00000000 GR
+  0 _get_cos                                                        000003EF GR
+  0 _get_sin                                                        0000019B GR
+  0 _main                                                           00000BB3 GR
+  1 _old_projected                                                  00000000 GR
+    _sd_read_sector                                                 ******** GX
+    _sd_wait_ready                                                  ******** GX
+    _sd_write_sector                                                ******** GX
+  1 _sector_buffer                                                  00000010 GR
+  0 _sin_lut                                                        000001EF GR
+  0 _test_sd_card                                                   00000689 GR
+  0 _update_cube                                                    000003FD GR
+    _vga_Print                                                      ******** GX
+    _vga_clear_screen                                               ******** GX
+    _vga_drawLine                                                   ******** GX
+    _vga_load_rgb333_full                                           ******** GX
+    _vga_pixel_fast                                                 ******** GX
+    _vga_print_hex8                                                 ******** GX
+    _vga_print_int                                                  ******** GX
+    _vga_setTextColor                                               ******** GX
+    _vga_setTextFont                                                ******** GX
+    _vga_setTextSize                                                ******** GX
+    _vga_set_cursor                                                 ******** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 2
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    _video_config                                                   ******** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 3
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      BE9   flags    0
+   1 _DATA                                      size      210   flags    0
+   2 _INITIALIZED                               size        1   flags    0
+   3 _DABS                                      size        0   flags    8
+   4 _HOME                                      size        0   flags    0
+   5 _GSINIT                                    size        0   flags    0
+   6 _GSFINAL                                   size        0   flags    0
+   7 _INITIALIZER                               size        1   flags    0
+   8 _CABS                                      size        0   flags    8
+
