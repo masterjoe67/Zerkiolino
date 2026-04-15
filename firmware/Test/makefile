@@ -11,7 +11,7 @@ DATA_LOC = 0x8000
 
 # File del progetto
 # crt0.rel DEVE essere il primo della lista
-REL_FILES = crt0.rel main.rel video.rel glcdfont.rel sdcard.rel
+REL_FILES = crt0.rel main.rel video.rel glcdfont.rel sdcard.rel uart_t80.rel
 TARGET = firmware
 
 # Regola principale

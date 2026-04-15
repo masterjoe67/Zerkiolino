@@ -1,0 +1,45 @@
+XL4
+H 9 areas 6 global symbols
+M uart_t80
+O -mz80 sdcccall(1)
+S .__.ABS. Def00000000
+A _CODE size 31 flags 0 addr 0
+S _uart_puts Def00000014
+S _uart_available Def0000001F
+S _uart_getc Def00000026
+S _uart_init Def00000000
+S _uart_putc Def00000009
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 00 00
+T 00 00 00 00 21 33 C0 77 2E 32 36 18 C9
+R 00 00 00 00
+T 09 00 00 00
+R 00 00 00 00
+T 09 00 00 00
+R 00 00 00 00
+T 09 00 00 00 21 31 C0 CB 6E 28 F9 32 30 C0 C9
+R 00 00 00 00
+T 14 00 00 00
+R 00 00 00 00
+T 14 00 00 00
+R 00 00 00 00
+T 14 00 00 00 7E B7 C8 23 E5 CD 09 00 E1 18 F5
+R 00 00 00 00 00 0A 00 00
+T 1F 00 00 00
+R 00 00 00 00
+T 1F 00 00 00 3A 31 C0 07 E6 01 C9
+R 00 00 00 00
+T 26 00 00 00
+R 00 00 00 00
+T 26 00 00 00
+R 00 00 00 00
+T 26 00 00 00 CD 1F 00 CB 47 28 F9 3A 30 C0 C9
+R 00 00 00 00 00 05 00 00

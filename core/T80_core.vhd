@@ -29,12 +29,19 @@ ENTITY T80_core IS
 		DRAM_DQ :  INOUT  STD_LOGIC_VECTOR(15 DOWNTO 0);
 		KEY :  IN  STD_LOGIC_VECTOR(0 TO 0);
 		LED :  OUT  STD_LOGIC_VECTOR(7 DOWNTO 0);
+		
+		--SDRAM
 		DRAM_CLK :  OUT  STD_LOGIC;
 		DRAM_CKE :  OUT  STD_LOGIC;
 		DRAM_CS_N :  OUT  STD_LOGIC;
 		DRAM_RAS_N :  OUT  STD_LOGIC;
 		DRAM_CAS_N :  OUT  STD_LOGIC;
 		DRAM_WE_N :  OUT  STD_LOGIC;
+		DRAM_ADDR :  OUT  STD_LOGIC_VECTOR(12 DOWNTO 0);
+		DRAM_BA :  OUT  STD_LOGIC_VECTOR(1 DOWNTO 0);
+		DRAM_DQM :  OUT  STD_LOGIC_VECTOR(1 DOWNTO 0);
+		
+		--VGA
 		VGAVS :  OUT  STD_LOGIC;
 		VGAHS :  OUT  STD_LOGIC;
 		VGAR0 :  OUT  STD_LOGIC;
@@ -46,9 +53,11 @@ ENTITY T80_core IS
 		VGAR2 :  OUT  STD_LOGIC;
 		VGAG2 :  OUT  STD_LOGIC;
 		VGAB2 :  OUT  STD_LOGIC;
-		DRAM_ADDR :  OUT  STD_LOGIC_VECTOR(12 DOWNTO 0);
-		DRAM_BA :  OUT  STD_LOGIC_VECTOR(1 DOWNTO 0);
-		DRAM_DQM :  OUT  STD_LOGIC_VECTOR(1 DOWNTO 0);
+		
+		--UART
+		RX    :  IN  STD_LOGIC;
+		TX 	:  OUT  STD_LOGIC;
+		
 		--SD card
 		sd_cs_pin   :  OUT  STD_LOGIC;
       sd_mosi_pin :  OUT  STD_LOGIC;
@@ -160,7 +169,10 @@ COMPONENT Z80_Bus_Arbiter
         -- Interfaccia ALU Hardware (0xC020 - 0xC02F)
         alu_data_in     : in  std_logic_vector(7 downto 0);
         alu_cs          : out std_logic;
-        alu_busy        : in  std_logic
+        alu_busy        : in  std_logic;
+        -- Interfaccia UART (0xC030 - 0xC03F)
+        uart_data_in    : in  std_logic_vector(7 downto 0);
+        uart_ce         : out std_logic
     );
 end COMPONENT;
 
@@ -271,6 +283,9 @@ SIGNAL	led_sd_activity : std_logic;
 signal alu_cs_sig   : std_logic;
 signal alu_data_out : std_logic_vector(7 downto 0);
 signal alu_busy_sig : std_logic;
+-- Segnali per il collegamento Arbiter <-> UART
+signal s_uart_ce      : std_logic;
+signal s_uart_data_in : std_logic_vector(7 downto 0); -- Dati dalla UART verso la CPU
 
 BEGIN 
 SYNTHESIZED_WIRE_8 <= '1';
@@ -355,6 +370,9 @@ PORT MAP(clk => clk_sys,
        alu_data_in  => alu_data_out,
        alu_cs       => alu_cs_sig,
        alu_busy     => alu_busy_sig,
+		 -- Interfaccia UART (0xC030)
+		 uart_data_in  => s_uart_data_in, -- L'arbiter legge i dati prodotti dalla UART
+		 uart_ce       => s_uart_ce,       -- L'arbiter dice quando la UART è selezionata
 		 cpu_din => cpu_din);
 
 
@@ -438,6 +456,28 @@ u_sd_controller : entity work.sd_controller
         sdSCLK       => sd_sclk_pin,
         driveLED     => led_sd_activity 
     );
+
+u_uart : entity work.uart_t80
+port map (
+    clk      => clk_sys,    -- Il tuo clock di sistema
+    reset_n  => rst_n,      -- Reset attivo basso
+    
+    -- Bus Indirizzi: prendiamo i bit bassi A1 e A0 dallo Z80
+    addr     => cpu_addr(1 downto 0), 
+    
+    -- Logica di controllo
+    ce_n     => not s_uart_ce, -- Invertiamo: l'arbiter dà '1', la UART vuole '0'
+    wr_n     => wr_n,          -- Segnale WR dello Z80
+    rd_n     => rd_n,          -- Segnale RD dello Z80
+    
+    -- Bus Dati
+    din      => cpu_dout,      -- Quello che la CPU SCRIVE (esce dalla CPU)
+    dout     => s_uart_data_in, -- Quello che la UART RISPONDE (va all'arbiter)
+    
+    -- Pin Fisici (verso l'esterno dell'FPGA)
+    rxd      => RX,
+    txd      => TX
+);
 	 
 	 
 	 

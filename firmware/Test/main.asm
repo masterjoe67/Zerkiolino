@@ -9,16 +9,23 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _main
+	.globl _run_vga_terminal
 	.globl _draw_mandelbrot
 	.globl _test_sd_card
 	.globl _update_cube
 	.globl _get_cos
 	.globl _get_sin
+	.globl _uart_available
+	.globl _uart_getc
+	.globl _uart_puts
+	.globl _uart_putc
+	.globl _uart_init
 	.globl _vga_load_rgb333_full
 	.globl _sd_read_sector
 	.globl _sd_write_sector
 	.globl _sd_wait_ready
 	.globl _vga_print_int
+	.globl _vga_write
 	.globl _vga_Print
 	.globl _vga_print_hex8
 	.globl _vga_clear_screen
@@ -362,7 +369,7 @@ _alu_shr:
 ;zerkiolino_alu.h:72: }
 	pop	ix
 	ret
-;main.c:31: int16_t get_sin(uint8_t a) { return sin_lut[a]; }
+;main.c:32: int16_t get_sin(uint8_t a) { return sin_lut[a]; }
 ;	---------------------------------
 ; Function get_sin
 ; ---------------------------------
@@ -683,7 +690,7 @@ _sin_lut:
 	.dw #0xffed
 	.dw #0xfff3
 	.dw #0xfffa
-;main.c:32: int16_t get_cos(uint8_t a) { return sin_lut[(uint8_t)(a + 64)]; }
+;main.c:33: int16_t get_cos(uint8_t a) { return sin_lut[(uint8_t)(a + 64)]; }
 ;	---------------------------------
 ; Function get_cos
 ; ---------------------------------
@@ -698,7 +705,7 @@ _get_cos::
 	inc	hl
 	ld	d, (hl)
 	ret
-;main.c:39: void update_cube(uint8_t angle_x, uint8_t angle_y) {
+;main.c:40: void update_cube(uint8_t angle_x, uint8_t angle_y) {
 ;	---------------------------------
 ; Function update_cube
 ; ---------------------------------
@@ -710,39 +717,39 @@ _update_cube::
 	add	iy, sp
 	ld	sp, iy
 	ld	h, a
-;main.c:43: int16_t s_x = get_sin(angle_x);
+;main.c:44: int16_t s_x = get_sin(angle_x);
 	push	hl
 	ld	a, h
 	call	_get_sin
 	ld	-15 (ix), e
 	ld	-14 (ix), d
 	pop	hl
-;main.c:44: int16_t c_x = get_cos(angle_x);
+;main.c:45: int16_t c_x = get_cos(angle_x);
 	push	hl
 	ld	a, h
 	call	_get_cos
 	ld	-13 (ix), e
 	ld	-12 (ix), d
 	pop	hl
-;main.c:45: int16_t s_y = get_sin(angle_y);
+;main.c:46: int16_t s_y = get_sin(angle_y);
 	push	hl
 	ld	a, l
 	call	_get_sin
 	ld	-11 (ix), e
 	ld	-10 (ix), d
 	pop	hl
-;main.c:46: int16_t c_y = get_cos(angle_y);
+;main.c:47: int16_t c_y = get_cos(angle_y);
 	ld	a, l
 	call	_get_cos
 	ld	-9 (ix), e
 	ld	-8 (ix), d
-;main.c:48: for(uint8_t i = 0; i < 8; i++) {
+;main.c:49: for(uint8_t i = 0; i < 8; i++) {
 	ld	-1 (ix), #0x00
 00108$:
 	ld	a, -1 (ix)
 	sub	a, #0x08
 	jp	NC, 00101$
-;main.c:50: int16_t y_rot = (cube_vertices[i].y * c_x - cube_vertices[i].z * s_x) >> 8;
+;main.c:51: int16_t y_rot = (cube_vertices[i].y * c_x - cube_vertices[i].z * s_x) >> 8;
 	ld	c, -1 (ix)
 	ld	b, #0x00
 	ld	l, c
@@ -793,7 +800,7 @@ _update_cube::
 	rlca
 	sbc	a, a
 	ld	-4 (ix), a
-;main.c:51: int16_t z_tmp = (cube_vertices[i].y * s_x + cube_vertices[i].z * c_x) >> 8;
+;main.c:52: int16_t z_tmp = (cube_vertices[i].y * s_x + cube_vertices[i].z * c_x) >> 8;
 	push	hl
 	ld	e, -15 (ix)
 	ld	d, -14 (ix)
@@ -815,7 +822,7 @@ _update_cube::
 	rlca
 	sbc	a, a
 	ld	-2 (ix), a
-;main.c:54: int16_t x_rot = (cube_vertices[i].x * c_y + z_tmp * s_y) >> 8;
+;main.c:55: int16_t x_rot = (cube_vertices[i].x * c_y + z_tmp * s_y) >> 8;
 	ld	l, -7 (ix)
 	ld	h, -6 (ix)
 	ld	c, (hl)
@@ -844,7 +851,7 @@ _update_cube::
 	rlca
 	sbc	a, a
 	ld	h, a
-;main.c:55: int16_t z_rot = (-cube_vertices[i].x * s_y + z_tmp * c_y) >> 8;
+;main.c:56: int16_t z_rot = (-cube_vertices[i].x * s_y + z_tmp * c_y) >> 8;
 	xor	a, a
 	sub	a, c
 	ld	c, a
@@ -872,14 +879,14 @@ _update_cube::
 	rlca
 	sbc	a, a
 	ld	d, a
-;main.c:58: z_rot += 128; 
+;main.c:59: z_rot += 128; 
 	ld	a, e
 	add	a, #0x80
 	ld	e, a
 	jr	NC, 00188$
 	inc	d
 00188$:
-;main.c:59: new_projected[i].x = 80 + (x_rot * 64 / z_rot);
+;main.c:60: new_projected[i].x = 80 + (x_rot * 64 / z_rot);
 	ld	c, -1 (ix)
 	ld	b, #0x00
 	sla	c
@@ -906,7 +913,7 @@ _update_cube::
 	ld	a, l
 	add	a, #0x50
 	ld	(bc), a
-;main.c:60: new_projected[i].y = 60 + (y_rot * 64 / z_rot);
+;main.c:61: new_projected[i].y = 60 + (y_rot * 64 / z_rot);
 	push	iy
 	pop	bc
 	inc	bc
@@ -924,21 +931,21 @@ _update_cube::
 	ld	a, e
 	add	a, #0x3c
 	ld	(bc), a
-;main.c:48: for(uint8_t i = 0; i < 8; i++) {
+;main.c:49: for(uint8_t i = 0; i < 8; i++) {
 	inc	-1 (ix)
 	jp	00108$
 00101$:
-;main.c:63: if (!first_frame) {
+;main.c:64: if (!first_frame) {
 	ld	a, (_first_frame+0)
 	or	a, a
 	jr	NZ, 00127$
-;main.c:64: for(uint8_t i=0; i<12; i++) {
+;main.c:65: for(uint8_t i=0; i<12; i++) {
 	ld	-1 (ix), #0x00
 00111$:
 	ld	a, -1 (ix)
 	sub	a, #0x0c
 	jr	NC, 00127$
-;main.c:67: old_projected[edges[i][1]].x, old_projected[edges[i][1]].y,
+;main.c:68: old_projected[edges[i][1]].x, old_projected[edges[i][1]].y,
 	ld	e, -1 (ix)
 	ld	d, #0x00
 	ex	de, hl
@@ -966,7 +973,7 @@ _update_cube::
 	ld	a, (bc)
 	ld	-3 (ix), a
 	ld	-2 (ix), #0x00
-;main.c:66: old_projected[edges[i][0]].x, old_projected[edges[i][0]].y,
+;main.c:67: old_projected[edges[i][0]].x, old_projected[edges[i][0]].y,
 	ld	a, (de)
 	ld	l, a
 	ld	h, #0x00
@@ -990,17 +997,17 @@ _update_cube::
 	ld	b, #0x00
 	push	bc
 	call	_vga_drawLine
-;main.c:64: for(uint8_t i=0; i<12; i++) {
+;main.c:65: for(uint8_t i=0; i<12; i++) {
 	inc	-1 (ix)
 	jr	00111$
-;main.c:74: for(uint8_t i=0; i<12; i++) {
+;main.c:75: for(uint8_t i=0; i<12; i++) {
 00127$:
 	ld	-1 (ix), #0x00
 00114$:
 	ld	a, -1 (ix)
 	sub	a, #0x0c
 	jr	NC, 00105$
-;main.c:77: new_projected[edges[i][1]].x, new_projected[edges[i][1]].y,
+;main.c:78: new_projected[edges[i][1]].x, new_projected[edges[i][1]].y,
 	ld	l, -1 (ix)
 	ld	h, #0x00
 	add	hl, hl
@@ -1026,7 +1033,7 @@ _update_cube::
 	ld	a, (bc)
 	ld	-3 (ix), a
 	ld	-2 (ix), #0x00
-;main.c:76: new_projected[edges[i][0]].x, new_projected[edges[i][0]].y,
+;main.c:77: new_projected[edges[i][0]].x, new_projected[edges[i][0]].y,
 	ld	l, 0 (iy)
 	ld	h, #0x00
 	add	hl, hl
@@ -1053,18 +1060,18 @@ _update_cube::
 	ld	l, c
 	ld	h, a
 	call	_vga_drawLine
-;main.c:74: for(uint8_t i=0; i<12; i++) {
+;main.c:75: for(uint8_t i=0; i<12; i++) {
 	inc	-1 (ix)
 	jr	00114$
 00105$:
-;main.c:83: for(uint8_t i=0; i<8; i++) {
+;main.c:84: for(uint8_t i=0; i<8; i++) {
 	ld	bc, #_old_projected+0
 	ld	e, #0x00
 00117$:
 	ld	a, e
 	sub	a, #0x08
 	jr	NC, 00106$
-;main.c:84: old_projected[i] = new_projected[i];
+;main.c:85: old_projected[i] = new_projected[i];
 	ld	l, e
 	ld	h, #0x00
 	add	hl, hl
@@ -1088,72 +1095,72 @@ _update_cube::
 	ld	(de), a
 	inc	bc
 	pop	de
-;main.c:83: for(uint8_t i=0; i<8; i++) {
+;main.c:84: for(uint8_t i=0; i<8; i++) {
 	inc	e
 	jr	00117$
 00106$:
-;main.c:86: first_frame = 0;
+;main.c:87: first_frame = 0;
 	xor	a, a
 	ld	(_first_frame+0), a
-;main.c:87: }
+;main.c:88: }
 	ld	sp, ix
 	pop	ix
 	ret
-;main.c:92: void test_sd_card(void) {
+;main.c:93: void test_sd_card(void) {
 ;	---------------------------------
 ; Function test_sd_card
 ; ---------------------------------
 _test_sd_card::
-;main.c:94: vga_set_cursor(20, 10);
+;main.c:95: vga_set_cursor(20, 10);
 	ld	de, #0x000a
 	ld	hl, #0x0014
 	call	_vga_set_cursor
-;main.c:95: vga_Print("Inizializzazione SD in corso...\n");
+;main.c:96: vga_Print("Inizializzazione SD in corso...\n");
 	ld	hl, #___str_0
 	call	_vga_Print
-;main.c:97: if (!sd_wait_ready()) {
+;main.c:98: if (!sd_wait_ready()) {
 	call	_sd_wait_ready
 	or	a, a
 	jr	NZ, 00102$
-;main.c:98: vga_Print("ERRORE: SD non risponde o timeout!\n");
+;main.c:99: vga_Print("ERRORE: SD non risponde o timeout!\n");
 	ld	hl, #___str_1
 	call	_vga_Print
-;main.c:99: vga_print_int(SDSTATUS); // Stampa lo stato per debug
+;main.c:100: vga_print_int(SDSTATUS); // Stampa lo stato per debug
 	ld	hl, #0xc011
 	ld	e, (hl)
 	ld	d, #0x00
 	ld	hl, #0x0000
 	call	_vga_print_int
-;main.c:100: vga_Print("\n");
-;main.c:101: return;
+;main.c:101: vga_Print("\n");
+;main.c:102: return;
 	ld	hl, #___str_2
 	jp	_vga_Print
 00102$:
-;main.c:103: vga_Print("SD Pronta!\n");
+;main.c:104: vga_Print("SD Pronta!\n");
 	ld	hl, #___str_3
 	call	_vga_Print
-;main.c:104: vga_setTextColor(BLUE, 0x0000);
+;main.c:105: vga_setTextColor(BLUE, 0x0000);
 	ld	de, #0x0000
 	ld	hl, #0x01c0
 	call	_vga_setTextColor
-;main.c:105: vga_Print("Invio comando...\n");
+;main.c:106: vga_Print("Invio comando...\n");
 	ld	hl, #___str_4
 	call	_vga_Print
-;main.c:109: uint8_t s = SDSTATUS;
+;main.c:110: uint8_t s = SDSTATUS;
 	ld	hl, #0xc011
 	ld	c, (hl)
-;main.c:110: vga_Print("Stato post-comando: ");
+;main.c:111: vga_Print("Stato post-comando: ");
 	push	bc
 	ld	hl, #___str_5
 	call	_vga_Print
 	pop	bc
-;main.c:111: vga_print_hex8(s);
+;main.c:112: vga_print_hex8(s);
 	ld	a, c
 	call	_vga_print_hex8
-;main.c:114: vga_Print("Lettura settore 0...\n");
+;main.c:115: vga_Print("Lettura settore 0...\n");
 	ld	hl, #___str_6
 	call	_vga_Print
-;main.c:115: if (sd_read_sector(3600, sector_buffer)) {
+;main.c:116: if (sd_read_sector(3600, sector_buffer)) {
 	ld	hl, #_sector_buffer
 	push	hl
 	ld	de, #0x0e10
@@ -1161,72 +1168,72 @@ _test_sd_card::
 	call	_sd_read_sector
 	or	a, a
 	jr	Z, 00105$
-;main.c:116: vga_Print("Settore letto con successo. Primi 16 byte:\n");
+;main.c:117: vga_Print("Settore letto con successo. Primi 16 byte:\n");
 	ld	hl, #___str_7
 	call	_vga_Print
-;main.c:118: for (int i = 0; i < 16; i++) {
+;main.c:119: for (int i = 0; i < 16; i++) {
 	ld	c, #0x00
 00111$:
 	ld	a, c
 	sub	a, #0x10
 	jr	NC, 00103$
-;main.c:120: uint8_t byte = sector_buffer[i];
+;main.c:121: uint8_t byte = sector_buffer[i];
 	ld	hl, #_sector_buffer
 	ld	b, #0x00
 	add	hl, bc
 	ld	a, (hl)
-;main.c:121: vga_print_hex8(byte);
+;main.c:122: vga_print_hex8(byte);
 	push	bc
 	call	_vga_print_hex8
-;main.c:122: vga_Print(", ");
+;main.c:123: vga_Print(", ");
 	ld	hl, #___str_8
 	call	_vga_Print
 	pop	bc
-;main.c:118: for (int i = 0; i < 16; i++) {
+;main.c:119: for (int i = 0; i < 16; i++) {
 	inc	c
 	jr	00111$
 00103$:
-;main.c:124: vga_Print("\n");
+;main.c:125: vga_Print("\n");
 	ld	hl, #___str_2
 	call	_vga_Print
 	jr	00106$
 00105$:
-;main.c:126: vga_Print("ERRORE durante la lettura!\n");
-;main.c:127: return;
+;main.c:127: vga_Print("ERRORE durante la lettura!\n");
+;main.c:128: return;
 	ld	hl, #___str_9
 	jp	_vga_Print
 00106$:
-;main.c:131: sector_buffer[0] = 0xD1;
+;main.c:132: sector_buffer[0] = 0xD1;
 	ld	hl, #_sector_buffer
 	ld	(hl), #0xd1
-;main.c:132: sector_buffer[1] = 0x0C;
+;main.c:133: sector_buffer[1] = 0x0C;
 	inc	hl
 	ld	(hl), #0x0c
-;main.c:133: sector_buffer[2] = 0xA7;
+;main.c:134: sector_buffer[2] = 0xA7;
 	ld	hl, #_sector_buffer + 2
 	ld	(hl), #0xa7
-;main.c:134: sector_buffer[3] = 0xE0;
+;main.c:135: sector_buffer[3] = 0xE0;
 	ld	hl, #_sector_buffer + 3
 	ld	(hl), #0xe0
-;main.c:135: sector_buffer[4] = 0x10;
+;main.c:136: sector_buffer[4] = 0x10;
 	ld	hl, #_sector_buffer + 4
 	ld	(hl), #0x10
-;main.c:136: sector_buffer[5] = 0x20;
+;main.c:137: sector_buffer[5] = 0x20;
 	ld	hl, #_sector_buffer + 5
 	ld	(hl), #0x20
-;main.c:137: sector_buffer[6] = 0x40;
+;main.c:138: sector_buffer[6] = 0x40;
 	ld	hl, #_sector_buffer + 6
 	ld	(hl), #0x40
-;main.c:138: sector_buffer[7] = 0x80;
+;main.c:139: sector_buffer[7] = 0x80;
 	ld	hl, #_sector_buffer + 7
 	ld	(hl), #0x80
-;main.c:139: sector_buffer[8] = 0xFF;
+;main.c:140: sector_buffer[8] = 0xFF;
 	ld	hl, #_sector_buffer + 8
 	ld	(hl), #0xff
-;main.c:143: vga_Print("Scrittura settore 100 per test...\n");
+;main.c:144: vga_Print("Scrittura settore 100 per test...\n");
 	ld	hl, #___str_10
 	call	_vga_Print
-;main.c:144: if (sd_write_sector(100, sector_buffer)) {
+;main.c:145: if (sd_write_sector(100, sector_buffer)) {
 	ld	hl, #_sector_buffer
 	push	hl
 	ld	de, #0x0064
@@ -1234,13 +1241,13 @@ _test_sd_card::
 	call	_sd_write_sector
 	or	a, a
 	jr	Z, 00108$
-;main.c:145: vga_Print("Scrittura completata!\n");
+;main.c:146: vga_Print("Scrittura completata!\n");
 	ld	hl, #___str_11
 	jp	_vga_Print
 00108$:
-;main.c:147: vga_Print("ERRORE durante la scrittura!\n");
+;main.c:148: vga_Print("ERRORE durante la scrittura!\n");
 	ld	hl, #___str_12
-;main.c:149: }
+;main.c:150: }
 	jp	_vga_Print
 ___str_0:
 	.ascii "Inizializzazione SD in corso..."
@@ -1291,7 +1298,7 @@ ___str_12:
 	.ascii "ERRORE durante la scrittura!"
 	.db 0x0a
 	.db 0x00
-;main.c:158: void draw_mandelbrot() {
+;main.c:159: void draw_mandelbrot() {
 ;	---------------------------------
 ; Function draw_mandelbrot
 ; ---------------------------------
@@ -1302,10 +1309,10 @@ _draw_mandelbrot::
 	ld	hl, #-41
 	add	hl, sp
 	ld	sp, hl
-;main.c:159: vga_clear_screen(BLACK);
+;main.c:160: vga_clear_screen(BLACK);
 	ld	hl, #0x0000
 	call	_vga_clear_screen
-;main.c:170: int32_t re_step = alu_div(alu_sub(max_re, min_re), WIDTH);
+;main.c:171: int32_t re_step = alu_div(alu_sub(max_re, min_re), WIDTH);
 	ld	hl, #0xfffe
 	push	hl
 	ld	hl, #0x0000
@@ -1327,7 +1334,7 @@ _draw_mandelbrot::
 	push	de
 	ld	-39 (ix), l
 	ld	-38 (ix), h
-;main.c:171: int32_t im_step = alu_div(alu_sub(max_im, min_im), HEIGHT);
+;main.c:172: int32_t im_step = alu_div(alu_sub(max_im, min_im), HEIGHT);
 	ld	hl, #0xfffe
 	push	hl
 	ld	hl, #0xcccd
@@ -1348,12 +1355,12 @@ _draw_mandelbrot::
 	ld	-36 (ix), d
 	ld	-35 (ix), l
 	ld	-34 (ix), h
-;main.c:173: int32_t ci = min_im;
+;main.c:174: int32_t ci = min_im;
 	ld	-33 (ix), #0xcd
 	ld	-32 (ix), #0xcc
 	ld	-31 (ix), #0xfe
 	ld	-30 (ix), #0xff
-;main.c:174: for (uint16_t y = 0; y < HEIGHT; y++) {
+;main.c:175: for (uint16_t y = 0; y < HEIGHT; y++) {
 	xor	a, a
 	ld	-6 (ix), a
 	ld	-5 (ix), a
@@ -1365,13 +1372,13 @@ _draw_mandelbrot::
 	ld	a, b
 	sbc	a, #0x00
 	jp	NC, 00116$
-;main.c:175: int32_t cr = min_re;
+;main.c:176: int32_t cr = min_re;
 	xor	a, a
 	ld	-29 (ix), a
 	ld	-28 (ix), a
 	ld	-27 (ix), #0xfe
 	ld	-26 (ix), #0xff
-;main.c:176: for (uint16_t x = 0; x < WIDTH; x++) {
+;main.c:177: for (uint16_t x = 0; x < WIDTH; x++) {
 	xor	a, a
 	ld	-4 (ix), a
 	ld	-3 (ix), a
@@ -1385,19 +1392,19 @@ _draw_mandelbrot::
 	ld	a, -1 (ix)
 	sbc	a, #0x01
 	jp	NC, 00108$
-;main.c:177: int32_t zr = 0;
+;main.c:178: int32_t zr = 0;
 	xor	a, a
 	ld	-25 (ix), a
 	ld	-24 (ix), a
 	ld	-23 (ix), a
 	ld	-22 (ix), a
-;main.c:178: int32_t zi = 0;
+;main.c:179: int32_t zi = 0;
 	xor	a, a
 	ld	-21 (ix), a
 	ld	-20 (ix), a
 	ld	-19 (ix), a
 	ld	-18 (ix), a
-;main.c:181: while (iter < 32) {
+;main.c:182: while (iter < 32) {
 	xor	a, a
 	ld	-2 (ix), a
 	ld	-1 (ix), a
@@ -1415,7 +1422,7 @@ _draw_mandelbrot::
 	ld	-15 (ix), a
 	or	a, a
 	jp	Z, 00105$
-;main.c:183: int32_t zr2 = alu_mul_fp(zr, zr);
+;main.c:184: int32_t zr2 = alu_mul_fp(zr, zr);
 	ld	l, -23 (ix)
 	ld	h, -22 (ix)
 	push	hl
@@ -1433,7 +1440,7 @@ _draw_mandelbrot::
 	ld	-13 (ix), d
 	ld	-12 (ix), l
 	ld	-11 (ix), h
-;main.c:184: int32_t zi2 = alu_mul_fp(zi, zi);
+;main.c:185: int32_t zi2 = alu_mul_fp(zi, zi);
 	ld	l, -19 (ix)
 	ld	h, -18 (ix)
 	push	hl
@@ -1449,7 +1456,7 @@ _draw_mandelbrot::
 	pop	af
 	ld	-10 (ix), e
 	ld	-9 (ix), d
-;main.c:187: if (alu_add(zr2, zi2) > FP_4) break;
+;main.c:188: if (alu_add(zr2, zi2) > FP_4) break;
 	ld	-8 (ix), l
 	ld	-7 (ix), h
 	push	hl
@@ -1474,7 +1481,7 @@ _draw_mandelbrot::
 	xor	a, #0x80
 00195$:
 	jp	M, 00105$
-;main.c:192: int32_t zrzi = alu_mul_fp(zr, zi);
+;main.c:193: int32_t zrzi = alu_mul_fp(zr, zi);
 	ld	l, -19 (ix)
 	ld	h, -18 (ix)
 	push	hl
@@ -1492,7 +1499,7 @@ _draw_mandelbrot::
 	ld	-17 (ix), d
 	ld	-16 (ix), l
 	ld	-15 (ix), h
-;main.c:194: zi = alu_add(alu_shl(zrzi, 1), ci);
+;main.c:195: zi = alu_add(alu_shl(zrzi, 1), ci);
 	ld	a, #0x01
 	push	af
 	inc	sp
@@ -1523,7 +1530,7 @@ _draw_mandelbrot::
 	ld	-20 (ix), d
 	ld	-19 (ix), l
 	ld	-18 (ix), h
-;main.c:197: zr = alu_add(alu_sub(zr2, zi2), cr);
+;main.c:198: zr = alu_add(alu_sub(zr2, zi2), cr);
 	ld	l, -8 (ix)
 	ld	h, -7 (ix)
 	push	hl
@@ -1558,17 +1565,17 @@ _draw_mandelbrot::
 	ld	-24 (ix), d
 	ld	-23 (ix), l
 	ld	-22 (ix), h
-;main.c:199: iter++;
+;main.c:200: iter++;
 	inc	-2 (ix)
 	jp	NZ, 00103$
 	inc	-1 (ix)
 	jp	00103$
 00105$:
-;main.c:203: if (iter < 32) {
+;main.c:204: if (iter < 32) {
 	ld	a, -15 (ix)
 	or	a, a
 	jr	Z, 00107$
-;main.c:205: uint8_t color = (iter < 8) ? BLUE : (iter < 16) ? CYAN : YELLOW;
+;main.c:206: uint8_t color = (iter < 8) ? BLUE : (iter < 16) ? CYAN : YELLOW;
 	ld	a, -17 (ix)
 	sub	a, #0x08
 	jr	NC, 00118$
@@ -1588,7 +1595,7 @@ _draw_mandelbrot::
 00121$:
 00119$:
 	ld	a, -2 (ix)
-;main.c:206: vga_pixel_fast(x, y, color);
+;main.c:207: vga_pixel_fast(x, y, color);
 	ld	-1 (ix), a
 	ld	-2 (ix), a
 	ld	-1 (ix), #0x00
@@ -1601,7 +1608,7 @@ _draw_mandelbrot::
 	ld	h, -3 (ix)
 	call	_vga_pixel_fast
 00107$:
-;main.c:209: cr = alu_add(cr, re_step);
+;main.c:210: cr = alu_add(cr, re_step);
 	pop	de
 	pop	hl
 	ex	de, hl
@@ -1620,13 +1627,13 @@ _draw_mandelbrot::
 	ld	-28 (ix), d
 	ld	-27 (ix), l
 	ld	-26 (ix), h
-;main.c:176: for (uint16_t x = 0; x < WIDTH; x++) {
+;main.c:177: for (uint16_t x = 0; x < WIDTH; x++) {
 	inc	-4 (ix)
 	jp	NZ, 00111$
 	inc	-3 (ix)
 	jp	00111$
 00108$:
-;main.c:211: ci = alu_add(ci, im_step);
+;main.c:212: ci = alu_add(ci, im_step);
 	ld	l, -35 (ix)
 	ld	h, -34 (ix)
 	push	hl
@@ -1644,54 +1651,147 @@ _draw_mandelbrot::
 	ld	-32 (ix), d
 	ld	-31 (ix), l
 	ld	-30 (ix), h
-;main.c:174: for (uint16_t y = 0; y < HEIGHT; y++) {
+;main.c:175: for (uint16_t y = 0; y < HEIGHT; y++) {
 	inc	-6 (ix)
 	jp	NZ, 00114$
 	inc	-5 (ix)
 	jp	00114$
 00116$:
-;main.c:213: }
+;main.c:214: }
 	ld	sp, ix
 	pop	ix
 	ret
-;main.c:215: int main(void) {
+;main.c:216: void run_vga_terminal(void) {
+;	---------------------------------
+; Function run_vga_terminal
+; ---------------------------------
+_run_vga_terminal::
+;main.c:220: uart_puts("Terminale VGA Attivo. Digita sul PC...\r\n");
+	ld	hl, #___str_13
+	call	_uart_puts
+;main.c:221: vga_set_cursor(0, 10);
+	ld	de, #0x000a
+	ld	hl, #0x0000
+	call	_vga_set_cursor
+;main.c:222: while(1) {
+00104$:
+;main.c:224: if (uart_available()) {
+	call	_uart_available
+	bit	0,a
+	jr	Z, 00104$
+;main.c:225: c = uart_getc();
+	call	_uart_getc
+	ld	c, a
+;main.c:229: vga_write(c);
+	push	bc
+	ld	a, c
+	call	_vga_write
+	pop	bc
+;main.c:233: uart_putc(c); 
+	ld	a, c
+	call	_uart_putc
+;main.c:237: if (c == 27) { // Codice ASCII per ESC
+;main.c:245: }
+	jr	00104$
+___str_13:
+	.ascii "Terminale VGA Attivo. Digita sul PC..."
+	.db 0x0d
+	.db 0x0a
+	.db 0x00
+;main.c:247: int main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
 	push	af
-;main.c:218: video_config(0, 1);
+;main.c:250: video_config(0, 1);
 	ld	l, #0x01
 	xor	a, a
 	call	_video_config
-;main.c:219: vga_clear_screen(BLACK); // Nero
+;main.c:252: uart_init(B_115200_80MHZ);
+	ld	a, #0x2a
+	call	_uart_init
+;main.c:253: uart_puts("Zoe UART System Ready...\r\n");
+	ld	hl, #___str_14
+	call	_uart_puts
+;main.c:254: uart_puts("T80 Soft-Core Online.\r\n");
+	ld	hl, #___str_15
+	call	_uart_puts
+;main.c:256: vga_clear_screen(BLACK); // Nero
 	ld	hl, #0x0000
 	call	_vga_clear_screen
-;main.c:221: vga_setTextFont(2);
+;main.c:258: vga_setTextFont(2);
 	ld	a, #0x02
 	call	_vga_setTextFont
-;main.c:222: vga_setTextSize(1);
+;main.c:259: vga_setTextSize(1);
 	ld	a, #0x01
 	call	_vga_setTextSize
-;main.c:223: vga_setTextColor(YELLOW, 0x0000);
+;main.c:260: vga_setTextColor(YELLOW, 0x0000);
 	ld	de, #0x0000
 	ld	hl, #0x003f
 	call	_vga_setTextColor
-;main.c:225: vga_set_cursor(0, 10);
+;main.c:262: vga_set_cursor(0, 10);
 	ld	de, #0x000a
 	ld	hl, #0x0000
 	call	_vga_set_cursor
-;main.c:248: vga_load_rgb333_full(1000);
+;main.c:269: vga_load_rgb333_full(1000);
 	ld	de, #0x03e8
 	ld	hl, #0x0000
 	call	_vga_load_rgb333_full
-;main.c:267: while (1)
-00102$:
-	jr	00102$
-;main.c:287: while (1)
-;main.c:294: }
+;main.c:271: for(volatile int i=0; i<10000; i++);
+	ld	hl, #0x0000
+	ex	(sp), hl
+00106$:
+	ld	iy, #0
+	add	iy, sp
+	ld	a, 0 (iy)
+	sub	a, #0x10
+	ld	a, 1 (iy)
+	rla
+	ccf
+	rra
+	sbc	a, #0xa7
+	jr	NC, 00101$
+	ld	a, 0 (iy)
+	ld	e, 1 (iy)
+	ld	hl, #0
+	add	hl, sp
+	add	a, #0x01
+	ld	(hl), a
+	inc	hl
+	ld	a, e
+	adc	a, #0x00
+	ld	(hl), a
+	jr	00106$
+00101$:
+;main.c:272: vga_clear_screen(BLACK); // Nero
+	ld	hl, #0x0000
+	call	_vga_clear_screen
+;main.c:274: vga_Print("VGA Terminal Test:\n");
+	ld	hl, #___str_16
+	call	_vga_Print
+;main.c:275: run_vga_terminal();
+	call	_run_vga_terminal
+;main.c:277: while (1)
+00103$:
+	jr	00103$
+;main.c:287: }
 	pop	af
 	ret
+___str_14:
+	.ascii "Zoe UART System Ready..."
+	.db 0x0d
+	.db 0x0a
+	.db 0x00
+___str_15:
+	.ascii "T80 Soft-Core Online."
+	.db 0x0d
+	.db 0x0a
+	.db 0x00
+___str_16:
+	.ascii "VGA Terminal Test:"
+	.db 0x0a
+	.db 0x00
 	.area _CODE
 	.area _INITIALIZER
 __xinit__first_frame:

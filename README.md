@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Zerkiolino 🚀
 Zerkiolino è un sistema computer-on-a-chip (SoC) custom basato su FPGA, evoluzione del progetto Tiny_DSO_VGA. Il cuore del sistema è un soft-core T80 (Z80 compatible) spinto all'estremo, interfacciato con un controller video VGA ad alta fedeltà e un sottosistema di archiviazione su SD Card.
 
@@ -30,3 +31,7 @@ Il progetto punta a implementare un sistema operativo in stile CP/M 80, sfruttan
 
 Note sull'Hardware
 Per replicare il progetto è necessaria una modifica hardware sulla DE0-Nano per mappare i pin dell'ADC verso l'header a 26 pin, permettendo così il collegamento del bus video a 16 bit.
+=======
+# Zerkiolino
+Zerkiolino: An overclocked T80 (Z80) SoC featuring 16-bit VGA and High-Speed SD support.
+>>>>>>> 9f2ca7371421af619c7ea12518ba0b9bb9f1c622

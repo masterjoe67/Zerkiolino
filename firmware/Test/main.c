@@ -2,6 +2,7 @@
 #include "video.h"
 #include "sdcard.h"
 #include "zerkiolino_alu.h"
+#include "uart_t80.h"
 
 typedef struct {
     int16_t x, y, z;
@@ -212,10 +213,46 @@ void draw_mandelbrot() {
     }
 }
 
+void run_vga_terminal(void) {
+    char c;
+
+    // Messaggio di benvenuto sulla UART per conferma
+    uart_puts("Terminale VGA Attivo. Digita sul PC...\r\n");
+    vga_set_cursor(0, 10);
+    while(1) {
+        // Se arriva un carattere dal PC (UART)
+        if (uart_available()) {
+            c = uart_getc();
+            
+            // 1. Lo spedisci alla VGA
+            // La vga_Print gestirà internamente \n, \r e wrap
+            vga_write(c);
+            
+            // 2. Eco locale opzionale (rimanda al PC quello che hai ricevuto)
+            // Utile per vedere cosa stai scrivendo nel terminale del PC
+            uart_putc(c); 
+            
+            // 3. Gestione speciale (opzionale)
+            // Se vuoi che il tasto 'Esc' pulisca la VGA, puoi aggiungere un controllo qui
+            if (c == 27) { // Codice ASCII per ESC
+                // vga_ClearScreen(); // Se hai una funzione CLS
+            }
+        }
+        
+        // --- Qui puoi aggiungere altre task del DSO ---
+        // Ad esempio: aggiorna i buffer dei campioni o controlla i tasti fisici
+    }
+}
+
 int main(void) {
     uint8_t ang_x = 0;
     uint8_t ang_y = 0;
     video_config(0, 1);
+
+    uart_init(B_115200_80MHZ);
+    uart_puts("Zoe UART System Ready...\r\n");
+    uart_puts("T80 Soft-Core Online.\r\n");
+
     vga_clear_screen(BLACK); // Nero
 
     vga_setTextFont(2);
@@ -226,68 +263,24 @@ int main(void) {
 
 
 
-/*vga_Print("Check Init...\n");
-if (SDSTATUS & 0x10) { 
-    vga_Print("SD in fase di init hardware...\n");
-}
-while(SDSTATUS & 0x10); // Aspetta solo la fine dell'init hardware
-vga_Print("Init hardware terminato.\n");
 
-vga_setTextColor(WHITE, 0x0000);
-vga_Print("Stato attuale: ");
-vga_print_hex8(SDSTATUS);
-vga_Print("\n");
 
-// Ora prova a leggere il settore 0
-if (sd_read_sector(0, sector_buffer)) {
-    vga_Print("MIRACOLO: Settore 0 letto!\n");
-} else {
-    vga_Print("Timeout lettura: la FSM e' rimasta BUSY (Stato A0)\n");
-}*/
 //test_sd_card();
 vga_load_rgb333_full(1000);
 
+for(volatile int i=0; i<10000; i++);
+vga_clear_screen(BLACK); // Nero
 
-   // draw_rgb_bars();
-//draw_mandelbrot();
-//vga_printAt("Mje", 400, 3, RED, BLACK, 2);
-    //test_sd_card();
-    //vga_Print("DIO CANE!\n"); 
-    /*vga_set_cursor(20, 10);
-    vga_Print("Inizializzazione SD in corso...\n");
-    
-    if (!sd_wait_ready()) {
-        vga_Print("ERRORE: SD non risponde o timeout!\n");
-        vga_print_int(SDSTATUS); // Stampa lo stato per debug
-        vga_Print("\n");
-        return;
-    }
-    vga_Print("SD Pronta!\n");
-    vga_load_rgb333_full(2000);*/
+vga_Print("VGA Terminal Test:\n");
+run_vga_terminal();
+
     while (1)
     {
         /* code */
     }
     
 
-    while(1) {
-        // 1. Esegui il rendering (Calcola, Cancella vecchio, Disegna nuovo)
-        update_cube(ang_x, ang_y);
 
-        // 2. Incrementa gli angoli per la rotazione del prossimo frame
-        ang_x += 2; // Velocità di rotazione su asse X
-        ang_y += 3; // Velocità di rotazione su asse Y
-
-        // 3. Un piccolo ritardo o attendi il VSync se lo hai implementato
-        // Se il cubo va troppo veloce a 80MHz, aggiungi un delay qui
-        for(volatile uint16_t i=0; i<1000; i++); 
-    }
-
-
-    while (1)
-    {
-        /* code */
-    }
     
 
     

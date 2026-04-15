@@ -9,5 +9,6 @@ main.rel
 video.rel
 glcdfont.rel
 sdcard.rel
+uart_t80.rel
 
 -e
