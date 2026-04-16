@@ -25,9 +25,9 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000100  s__CODE                         
      00000228  l__DATA                         
      00000BFB  l__HOME                         
-     00004022  l__CODE                         
-     00004122  s__GSINIT                       
-     00004131  s__GSFINAL                      
+     0000404F  l__CODE                         
+     0000414F  s__GSINIT                       
+     0000415E  s__GSFINAL                      
      00008000  s__DATA                         
      00008228  s__INITIALIZED                  
      0000822F  s__BSS                          
@@ -39,7 +39,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    00004022 =       16418. bytes (REL,CON)
+_CODE                               00000100    0000404F =       16463. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -53,193 +53,195 @@ _CODE                               00000100    00004022 =       16418. bytes (R
      000009A1  _draw_mandelbrot                   main
      00000CB3  _run_vga_terminal                  main
      00000D02  _main                              main
-     00000E00  _chr_f16_20                        video
-     00000E10  _chr_f16_21                        video
-     00000E20  _chr_f16_22                        video
-     00000E30  _chr_f16_23                        video
-     00000E40  _chr_f16_24                        video
-     00000E50  _chr_f16_25                        video
-     00000E60  _chr_f16_26                        video
-     00000E70  _chr_f16_27                        video
-     00000E80  _chr_f16_28                        video
-     00000E90  _chr_f16_29                        video
-     00000EA0  _chr_f16_2A                        video
-     00000EB0  _chr_f16_2B                        video
-     00000EC0  _chr_f16_2C                        video
-     00000ED0  _chr_f16_2D                        video
-     00000EE0  _chr_f16_2E                        video
-     00000EF0  _chr_f16_2F                        video
-     00000F00  _chr_f16_30                        video
-     00000F10  _chr_f16_31                        video
-     00000F20  _chr_f16_32                        video
-     00000F30  _chr_f16_33                        video
-     00000F40  _chr_f16_34                        video
-     00000F50  _chr_f16_35                        video
-     00000F60  _chr_f16_36                        video
-     00000F70  _chr_f16_37                        video
-     00000F80  _chr_f16_38                        video
-     00000F90  _chr_f16_39                        video
-     00000FA0  _chr_f16_3A                        video
-     00000FB0  _chr_f16_3B                        video
-     00000FC0  _chr_f16_3C                        video
-     00000FD0  _chr_f16_3D                        video
-     00000FE0  _chr_f16_3E                        video
-     00000FF0  _chr_f16_3F                        video
-     00001000  _chr_f16_40                        video
-     00001010  _chr_f16_41                        video
-     00001020  _chr_f16_42                        video
-     00001030  _chr_f16_43                        video
-     00001040  _chr_f16_44                        video
-     00001050  _chr_f16_45                        video
-     00001060  _chr_f16_46                        video
-     00001070  _chr_f16_47                        video
+     00000E21  _chr_f16_20                        video
+     00000E31  _chr_f16_21                        video
+     00000E41  _chr_f16_22                        video
+     00000E51  _chr_f16_23                        video
+     00000E61  _chr_f16_24                        video
+     00000E71  _chr_f16_25                        video
+     00000E81  _chr_f16_26                        video
+     00000E91  _chr_f16_27                        video
+     00000EA1  _chr_f16_28                        video
+     00000EB1  _chr_f16_29                        video
+     00000EC1  _chr_f16_2A                        video
+     00000ED1  _chr_f16_2B                        video
+     00000EE1  _chr_f16_2C                        video
+     00000EF1  _chr_f16_2D                        video
+     00000F01  _chr_f16_2E                        video
+     00000F11  _chr_f16_2F                        video
+     00000F21  _chr_f16_30                        video
+     00000F31  _chr_f16_31                        video
+     00000F41  _chr_f16_32                        video
+     00000F51  _chr_f16_33                        video
+     00000F61  _chr_f16_34                        video
+     00000F71  _chr_f16_35                        video
+     00000F81  _chr_f16_36                        video
+     00000F91  _chr_f16_37                        video
+     00000FA1  _chr_f16_38                        video
+     00000FB1  _chr_f16_39                        video
+     00000FC1  _chr_f16_3A                        video
+     00000FD1  _chr_f16_3B                        video
+     00000FE1  _chr_f16_3C                        video
+     00000FF1  _chr_f16_3D                        video
+     00001001  _chr_f16_3E                        video
+     00001011  _chr_f16_3F                        video
+     00001021  _chr_f16_40                        video
+     00001031  _chr_f16_41                        video
+     00001041  _chr_f16_42                        video
+     00001051  _chr_f16_43                        video
+     00001061  _chr_f16_44                        video
+     00001071  _chr_f16_45                        video
+     00001081  _chr_f16_46                        video
+     00001091  _chr_f16_47                        video
 ASxxxx Linker V03.00/V05.40 + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    00004022 =       16418. bytes (REL,CON)
+_CODE                               00000100    0000404F =       16463. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00001080  _chr_f16_48                        video
-     00001090  _chr_f16_49                        video
-     000010A0  _chr_f16_4A                        video
-     000010B0  _chr_f16_4B                        video
-     000010C0  _chr_f16_4C                        video
-     000010D0  _chr_f16_4D                        video
-     000010F0  _chr_f16_4E                        video
-     00001100  _chr_f16_4F                        video
-     00001110  _chr_f16_50                        video
-     00001120  _chr_f16_51                        video
-     00001130  _chr_f16_52                        video
-     00001140  _chr_f16_53                        video
-     00001150  _chr_f16_54                        video
-     00001160  _chr_f16_55                        video
-     00001170  _chr_f16_56                        video
-     00001180  _chr_f16_57                        video
-     000011A0  _chr_f16_58                        video
-     000011B0  _chr_f16_59                        video
-     000011C0  _chr_f16_5A                        video
-     000011D0  _chr_f16_5B                        video
-     000011E0  _chr_f16_5C                        video
-     000011F0  _chr_f16_5D                        video
-     00001200  _chr_f16_5E                        video
-     00001220  _chr_f16_5F                        video
-     00001240  _chr_f16_60                        video
-     00001250  _chr_f16_61                        video
-     00001260  _chr_f16_62                        video
-     00001270  _chr_f16_63                        video
-     00001280  _chr_f16_64                        video
-     00001290  _chr_f16_65                        video
-     000012A0  _chr_f16_66                        video
-     000012B0  _chr_f16_67                        video
-     000012C0  _chr_f16_68                        video
-     000012D0  _chr_f16_69                        video
-     000012E0  _chr_f16_6A                        video
-     000012F0  _chr_f16_6B                        video
-     00001300  _chr_f16_6C                        video
-     00001310  _chr_f16_6D                        video
-     00001320  _chr_f16_6E                        video
-     00001330  _chr_f16_6F                        video
-     00001340  _chr_f16_70                        video
-     00001350  _chr_f16_71                        video
-     00001360  _chr_f16_72                        video
-     00001370  _chr_f16_73                        video
-     00001380  _chr_f16_74                        video
-     00001390  _chr_f16_75                        video
-     000013A0  _chr_f16_76                        video
-     000013B0  _chr_f16_77                        video
-     000013C0  _chr_f16_78                        video
-     000013D0  _chr_f16_79                        video
-     000013E0  _chr_f16_7A                        video
+     000010A1  _chr_f16_48                        video
+     000010B1  _chr_f16_49                        video
+     000010C1  _chr_f16_4A                        video
+     000010D1  _chr_f16_4B                        video
+     000010E1  _chr_f16_4C                        video
+     000010F1  _chr_f16_4D                        video
+     00001111  _chr_f16_4E                        video
+     00001121  _chr_f16_4F                        video
+     00001131  _chr_f16_50                        video
+     00001141  _chr_f16_51                        video
+     00001151  _chr_f16_52                        video
+     00001161  _chr_f16_53                        video
+     00001171  _chr_f16_54                        video
+     00001181  _chr_f16_55                        video
+     00001191  _chr_f16_56                        video
+     000011A1  _chr_f16_57                        video
+     000011C1  _chr_f16_58                        video
+     000011D1  _chr_f16_59                        video
+     000011E1  _chr_f16_5A                        video
+     000011F1  _chr_f16_5B                        video
+     00001201  _chr_f16_5C                        video
+     00001211  _chr_f16_5D                        video
+     00001221  _chr_f16_5E                        video
+     00001241  _chr_f16_5F                        video
+     00001261  _chr_f16_60                        video
+     00001271  _chr_f16_61                        video
+     00001281  _chr_f16_62                        video
+     00001291  _chr_f16_63                        video
+     000012A1  _chr_f16_64                        video
+     000012B1  _chr_f16_65                        video
+     000012C1  _chr_f16_66                        video
+     000012D1  _chr_f16_67                        video
+     000012E1  _chr_f16_68                        video
+     000012F1  _chr_f16_69                        video
+     00001301  _chr_f16_6A                        video
+     00001311  _chr_f16_6B                        video
+     00001321  _chr_f16_6C                        video
+     00001331  _chr_f16_6D                        video
+     00001341  _chr_f16_6E                        video
+     00001351  _chr_f16_6F                        video
+     00001361  _chr_f16_70                        video
+     00001371  _chr_f16_71                        video
+     00001381  _chr_f16_72                        video
+     00001391  _chr_f16_73                        video
+     000013A1  _chr_f16_74                        video
+     000013B1  _chr_f16_75                        video
+     000013C1  _chr_f16_76                        video
+     000013D1  _chr_f16_77                        video
+     000013E1  _chr_f16_78                        video
+     000013F1  _chr_f16_79                        video
+     00001401  _chr_f16_7A                        video
 ASxxxx Linker V03.00/V05.40 + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    00004022 =       16418. bytes (REL,CON)
+_CODE                               00000100    0000404F =       16463. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000013F0  _chr_f16_7B                        video
-     00001400  _chr_f16_7C                        video
-     00001410  _chr_f16_7D                        video
-     00001420  _chr_f16_7E                        video
-     00001430  _chr_f16_7F                        video
-     00001440  _widtbl_f16                        video
-     000014A0  _chrtbl_f16                        video
-     000016C7  _swap_int16                        video
-     000016F3  _video_config                      video
-     00001705  _vga_set_cursor                    video
-     0000170D  _vga_setTextFont                   video
-     00001716  _vga_setTextSize                   video
-     00001725  _vga_setTextColor                  video
-     0000172D  _vga_pixel_fast                    video
-     00001770  _test_fill                         video
-     000017DD  _vga_clear_screen                  video
-     0000184F  _vga_fillRect                      video
-     0000192C  _vga_drawCharGL                    video
-     00001B38  _vga_fillRect_fast                 video
-     00001BBC  _vga_drawChar                      video
-     00002006  _vga_printAt                       video
-     000020E2  _vga_drawFastHLine                 video
-     000021AF  _vga_drawFastVLine                 video
-     00002252  _vga_drawRect                      video
-     00002306  _vga_fillCircle                    video
-     000024BE  _vga_drawLine                      video
-     0000270F  _vga_printCenteredX                video
-     00002846  _vga_FillTriangle                  video
-     00002B45  _vga_Print                         video
-     00002B50  _vga_Print_int16                   video
-     00002BE5  _vga_print_float                   video
-     00002CB5  _vga_print_hex8                    video
-     00002D47  _vga_print_int                     video
-     00002E15  _vga_print_int_safe                video
-     00002F3F  _vga_write                         video
-     00003102  _vga_drawLine_Clipped              video
-     00003522  _draw_rgb_bars                     video
-     000035F5  _font                              glcdfont
-     00003AF0  _sd_wait_ready                     sdcard
-     00003B15  _sd_write_sector2                  sdcard
-     00003B78  _sd_write_sector                   sdcard
-     00003BE2  _sd_read_sector                    sdcard
-     00003C74  _vga_load_rgb333_full              sdcard
-     00003D64  _uart_init                         uart_t80
-     00003D6D  _uart_putc                         uart_t80
-     00003D78  _uart_puts                         uart_t80
-     00003D83  _uart_available                    uart_t80
-     00003D8A  _uart_getc                         uart_t80
-     00003D95  __muluschar                        mulchar
-     00003D9B  __mulsuchar                        mulchar
-     00003DA1  __mulschar                         mulchar
+     00001411  _chr_f16_7B                        video
+     00001421  _chr_f16_7C                        video
+     00001431  _chr_f16_7D                        video
+     00001441  _chr_f16_7E                        video
+     00001451  _chr_f16_7F                        video
+     00001461  _widtbl_f16                        video
+     000014C1  _chrtbl_f16                        video
+     000016E8  _swap_int16                        video
+     00001714  _video_config                      video
+     00001726  _vga_set_cursor                    video
+     0000172E  _vga_setTextFont                   video
+     00001737  _vga_setTextSize                   video
+     00001746  _vga_setTextColor                  video
+     0000174E  _vga_pixel_fast                    video
+     00001791  _test_fill                         video
+     000017FE  _vga_clear_screen                  video
+     00001870  _vga_fillRect                      video
+     0000194D  _vga_drawCharGL                    video
+     00001B59  _vga_fillRect_fast                 video
+     00001BDD  _vga_drawChar                      video
+     00002027  _vga_printAt                       video
+     00002103  _vga_drawFastHLine                 video
+     000021D0  _vga_drawFastVLine                 video
+     00002273  _vga_drawRect                      video
+     00002327  _vga_fillCircle                    video
+     000024DF  _vga_drawLine                      video
+     00002730  _vga_printCenteredX                video
+     00002867  _vga_FillTriangle                  video
+     00002B66  _vga_Print                         video
+     00002B71  _vga_Print_int16                   video
+     00002C06  _vga_print_float                   video
+     00002CD6  _vga_print_hex8                    video
+     00002D68  _vga_print_int                     video
+     00002E36  _vga_print_int_safe                video
+     00002F60  _vga_write                         video
+     00003123  _vga_drawLine_Clipped              video
+     00003543  _draw_rgb_bars                     video
+     00003616  _vga_set_display_page              video
+     0000361C  _vga_set_work_page                 video
+     00003622  _font                              glcdfont
+     00003B1D  _sd_wait_ready                     sdcard
+     00003B42  _sd_write_sector2                  sdcard
+     00003BA5  _sd_write_sector                   sdcard
+     00003C0F  _sd_read_sector                    sdcard
+     00003CA1  _vga_load_rgb333_full              sdcard
+     00003D91  _uart_init                         uart_t80
+     00003D9A  _uart_putc                         uart_t80
+     00003DA5  _uart_puts                         uart_t80
+     00003DB0  _uart_available                    uart_t80
+     00003DB7  _uart_getc                         uart_t80
+     00003DC2  __muluschar                        mulchar
 ASxxxx Linker V03.00/V05.40 + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00000100    00004022 =       16418. bytes (REL,CON)
+_CODE                               00000100    0000404F =       16463. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00003DAD  _abs                               abs
-     00003DB6  __mulint                           mul
-     00003DB8  __mul16                            mul
-     00003DCD  _strlen                            strlen
-     00004061  __modschar                         modsigned
-     00004069  __modsint                          modsigned
-     0000406F  __divschar                         divsigned
-     00004071  __div8                             divsigned
-     00004075  __div_signexte                     divsigned
-     00004079  __div16                            divsigned
-     00004079  __divsint                          divsigned
-     0000409F  __get_remainder                    divsigned
-     000040A9  ___mulsint2slong                   __mulsint2slong
-     000040D7  ___muluint2ulong                   __mulsint2slong
-     000040EE  __divuchar                         divunsigned
-     000040F0  __divu8                            divunsigned
-     000040F3  __divu16                           divunsigned
-     000040F3  __divuint                          divunsigned
+     00003DC8  __mulsuchar                        mulchar
+     00003DCE  __mulschar                         mulchar
+     00003DDA  _abs                               abs
+     00003DE3  __mulint                           mul
+     00003DE5  __mul16                            mul
+     00003DFA  _strlen                            strlen
+     0000408E  __modschar                         modsigned
+     00004096  __modsint                          modsigned
+     0000409C  __divschar                         divsigned
+     0000409E  __div8                             divsigned
+     000040A2  __div_signexte                     divsigned
+     000040A6  __div16                            divsigned
+     000040A6  __divsint                          divsigned
+     000040CC  __get_remainder                    divsigned
+     000040D6  ___mulsint2slong                   __mulsint2slong
+     00004104  ___muluint2ulong                   __mulsint2slong
+     0000411B  __divuchar                         divunsigned
+     0000411D  __divu8                            divunsigned
+     00004120  __divu16                           divunsigned
+     00004120  __divuint                          divunsigned
 
 ASxxxx Linker V03.00/V05.40 + sdld,  page 6.
 Hexadecimal  [32-Bits]
@@ -255,7 +257,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSINIT                             00004122    0000000F =          15. bytes (REL,CON)
+_GSINIT                             0000414F    0000000F =          15. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -264,7 +266,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSFINAL                            00004131    00000001 =           1. bytes (REL,CON)
+_GSFINAL                            0000415E    00000001 =           1. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------

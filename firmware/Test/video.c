@@ -964,3 +964,19 @@ void draw_rgb_bars() {
     }
 }
 
+/**
+ * Seleziona quale pagina della SDRAM viene inviata al monitor.
+ * @param page Numero della pagina (0-31)
+ */
+void vga_set_display_page(uint8_t page) {
+    VIDEO_REG_READ_PAGE = (page & 0x1F);
+}
+
+/**
+ * Seleziona su quale pagina scriverà la CPU con le prossime istruzioni.
+ * @param page Numero della pagina (0-31)
+ */
+void vga_set_work_page(uint8_t page) {
+    VIDEO_REG_WRITE_PAGE = (page & 0x1F);
+}
+

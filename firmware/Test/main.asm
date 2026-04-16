@@ -24,6 +24,8 @@
 	.globl _sd_read_sector
 	.globl _sd_write_sector
 	.globl _sd_wait_ready
+	.globl _vga_set_work_page
+	.globl _vga_set_display_page
 	.globl _vga_print_int
 	.globl _vga_write
 	.globl _vga_Print
@@ -1734,11 +1736,30 @@ _main::
 	ld	de, #0x000a
 	ld	hl, #0x0000
 	call	_vga_set_cursor
-;main.c:269: vga_load_rgb333_full(1000);
+;main.c:265: vga_set_display_page(0);
+	xor	a, a
+	call	_vga_set_display_page
+;main.c:266: vga_set_work_page(0);
+	xor	a, a
+	call	_vga_set_work_page
+;main.c:267: vga_load_rgb333_full(1000);
 	ld	de, #0x03e8
 	ld	hl, #0x0000
 	call	_vga_load_rgb333_full
-;main.c:271: for(volatile int i=0; i<10000; i++);
+;main.c:268: vga_set_work_page(1);
+	ld	a, #0x01
+	call	_vga_set_work_page
+;main.c:269: vga_clear_screen(RED); // Nero
+	ld	hl, #0x0007
+	call	_vga_clear_screen
+;main.c:270: vga_load_rgb333_full(3400);
+	ld	de, #0x0d48
+	ld	hl, #0x0000
+	call	_vga_load_rgb333_full
+;main.c:271: vga_set_display_page(1);
+	ld	a, #0x01
+	call	_vga_set_display_page
+;main.c:276: for(volatile int i=0; i<10000; i++);
 	ld	hl, #0x0000
 	ex	(sp), hl
 00106$:
@@ -1764,18 +1785,18 @@ _main::
 	ld	(hl), a
 	jr	00106$
 00101$:
-;main.c:272: vga_clear_screen(BLACK); // Nero
+;main.c:277: vga_clear_screen(BLACK); // Nero
 	ld	hl, #0x0000
 	call	_vga_clear_screen
-;main.c:274: vga_Print("VGA Terminal Test:\n");
+;main.c:279: vga_Print("VGA Terminal Test:\n");
 	ld	hl, #___str_16
 	call	_vga_Print
-;main.c:275: run_vga_terminal();
+;main.c:280: run_vga_terminal();
 	call	_run_vga_terminal
-;main.c:277: while (1)
+;main.c:282: while (1)
 00103$:
 	jr	00103$
-;main.c:287: }
+;main.c:292: }
 	pop	af
 	ret
 ___str_14:

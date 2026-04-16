@@ -156,6 +156,8 @@
 	.globl _vga_write
 	.globl _vga_drawLine_Clipped
 	.globl _draw_rgb_bars
+	.globl _vga_set_display_page
+	.globl _vga_set_work_page
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -5890,7 +5892,7 @@ _vga_print_int_safe::
 	ld	h, #0x00
 	add	hl, hl
 	add	hl, hl
-	ld	iy, #_vga_print_int_safe_powers10_10000_258
+	ld	iy, #_vga_print_int_safe_powers10_10000_260
 	push	bc
 	ld	c, l
 	ld	b, h
@@ -5973,7 +5975,7 @@ _vga_print_int_safe::
 	ld	sp, ix
 	pop	ix
 	ret
-_vga_print_int_safe_powers10_10000_258:
+_vga_print_int_safe_powers10_10000_260:
 	.byte #0x00, #0xca, #0x9a, #0x3b	;  1000000000
 	.byte #0x00, #0xe1, #0xf5, #0x05	;  100000000
 	.byte #0x80, #0x96, #0x98, #0x00	;  10000000
@@ -6784,6 +6786,26 @@ _draw_rgb_bars::
 ;video.c:965: }
 	ld	sp, ix
 	pop	ix
+	ret
+;video.c:971: void vga_set_display_page(uint8_t page) {
+;	---------------------------------
+; Function vga_set_display_page
+; ---------------------------------
+_vga_set_display_page::
+;video.c:972: VIDEO_REG_READ_PAGE = (page & 0x1F);
+	and	a, #0x1f
+	ld	(#0xc007),a
+;video.c:973: }
+	ret
+;video.c:979: void vga_set_work_page(uint8_t page) {
+;	---------------------------------
+; Function vga_set_work_page
+; ---------------------------------
+_vga_set_work_page::
+;video.c:980: VIDEO_REG_WRITE_PAGE = (page & 0x1F);
+	and	a, #0x1f
+	ld	(#0xc008),a
+;video.c:981: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

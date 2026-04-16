@@ -13,9 +13,9 @@ Symbol Table
   0 ___str_11                                                       0000086C R
   0 ___str_12                                                       00000883 R
   0 ___str_13                                                       00000BD9 R
-  0 ___str_14                                                       00000C85 R
-  0 ___str_15                                                       00000CA0 R
-  0 ___str_16                                                       00000CB8 R
+  0 ___str_14                                                       00000CA6 R
+  0 ___str_15                                                       00000CC1 R
+  0 ___str_16                                                       00000CD9 R
   0 ___str_2                                                        000007B3 R
   0 ___str_3                                                        000007B5 R
   0 ___str_4                                                        000007C1 R
@@ -73,16 +73,17 @@ Symbol Table
     _vga_setTextFont                                                ******** GX
     _vga_setTextSize                                                ******** GX
     _vga_set_cursor                                                 ******** GX
+    _vga_set_display_page                                           ******** GX
+    _vga_set_work_page                                              ******** GX
     _vga_write                                                      ******** GX
     _video_config                                                   ******** GX
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180 / ZX-Next / eZ80 / R800)                          Page 3
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      CCC   flags    0
+   0 _CODE                                      size      CED   flags    0
    1 _DATA                                      size      210   flags    0
    2 _INITIALIZED                               size        1   flags    0
    3 _DABS                                      size        0   flags    8

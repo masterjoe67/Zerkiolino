@@ -199,11 +199,13 @@ Symbol Table
   0 _vga_print_hex8                                                 00001EE9 GR
   0 _vga_print_int                                                  00001F7B GR
   0 _vga_print_int_safe                                             00002049 GR
-  0 _vga_print_int_safe_powers10_10000_258                          0000213C R
+  0 _vga_print_int_safe_powers10_10000_260                          0000213C R
   0 _vga_setTextColor                                               00000959 GR
   0 _vga_setTextFont                                                00000941 GR
   0 _vga_setTextSize                                                0000094A GR
   0 _vga_set_cursor                                                 00000939 GR
+  0 _vga_set_display_page                                           00002829 GR
+  0 _vga_set_work_page                                              0000282F GR
   0 _vga_write                                                      00002173 GR
   0 _video_config                                                   00000927 GR
   0 _widtbl_f16                                                     00000674 GR
@@ -216,7 +218,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size     2829   flags    0
+   0 _CODE                                      size     2835   flags    0
    1 _DATA                                      size       18   flags    0
    2 _INITIALIZED                               size        6   flags    0
    3 _DABS                                      size        0   flags    8

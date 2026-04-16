@@ -1,5 +1,3 @@
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
@@ -47,7 +45,11 @@ architecture rtl of dso_video_subsystem is
     signal video_active_reg  : std_logic := '1'; 
     signal scanline_reg      : std_logic := '1';
     
-    signal vga_we_prev       : std_logic := '0';
+    signal vga_we_prev        : std_logic := '0';
+
+    -- Buffer Pagine (Pagine da 1MB @ 32MB SDRAM = 32 Pagine)
+    signal reg_read_page  : std_logic_vector(4 downto 0) := (others => '0'); -- Mapped to 0xC007
+    signal reg_write_page : std_logic_vector(4 downto 0) := (others => '0'); -- Mapped to 0xC008
 
     -- Buffer Pendente per Scrittura Sicura
     signal pending_pixel_wr  : std_logic := '0';
@@ -67,10 +69,10 @@ architecture rtl of dso_video_subsystem is
     signal vga_row_req_addr : unsigned(9 downto 0);
     signal vga_col_req_addr : unsigned(9 downto 0);
     signal vga_bus_internal : unsigned(10 downto 0);
-    signal sdr_load_req     : std_logic;
-    signal sdr_load_ack     : std_logic;
+    signal sdr_load_req      : std_logic;
+    signal sdr_load_ack      : std_logic;
     signal wren_sdr_to_ram2 : std_logic;
-    signal ram2_q_vec       : std_logic_vector(15 downto 0);
+    signal ram2_q_vec        : std_logic_vector(15 downto 0);
 
     component vga_fifo
         port (
@@ -92,8 +94,6 @@ begin
     ------------------------------------------------------------------
     -- 1. LOGICA DI WAIT (SDRAM_BUSY)
     ------------------------------------------------------------------
-    -- La CPU viene bloccata se la FIFO è fisicamente piena OPPURE 
-    -- se stiamo ancora smaltendo il pacchetto precedente.
     sdram_busy <= fifo_full or pending_pixel_wr;
 
     ------------------------------------------------------------------
@@ -110,7 +110,7 @@ begin
             q       => fifo_rd_data,
             rdempty => fifo_empty,
             wrfull  => fifo_full,
-            wrusedw => open -- Disconnesso per evitare warning del compilatore
+            wrusedw => open
         );
 
     ------------------------------------------------------------------
@@ -126,9 +126,11 @@ begin
             vga_we_prev <= '0';
             fifo_wr_req <= '0';
             pending_pixel_wr <= '0';
+            reg_read_page <= (others => '0');
+            reg_write_page <= (others => '0');
         elsif rising_edge(clk_cpu) then
             vga_we_prev <= vga_we;
-            fifo_wr_req <= '0'; -- Impulso di default
+            fifo_wr_req <= '0'; 
 
             -- A) CATTURA REGISTRI (Edge Detector)
             if vga_cs = '1' and vga_we = '1' and vga_we_prev = '0' then
@@ -140,30 +142,36 @@ begin
                     when x"4" => reg_data_low      <= vga_wdata;
                     
                     when x"5" => 
-                        -- Calcoliamo immediatamente l'indirizzo
-                        if reg_x < 320 then
-                            addr_temp := "00" & "000" & reg_y & reg_x(8 downto 0);
-                        else
-                            addr_temp := "10" & "000" & reg_y & unsigned(reg_x - 320)(8 downto 0);
-                        end if;
-                        
-                        -- Congeliamo i dati in un buffer di attesa
-                        pending_fifo_data <= std_logic_vector(addr_temp) & vga_wdata & reg_data_low;
-                        pending_pixel_wr <= '1';
+    -- addr_temp deve essere costruito per pilotare SdrAddress nel controller
+    -- Struttura: [Pagina 5-bit][Bank 1-bit][Y 9-bit][X 9-bit]
+    if reg_x < 320 then
+        -- Scrive nel Banco 0 della pagina selezionata
+        addr_temp := unsigned(reg_write_page) & '0' & reg_y(8 downto 0) & reg_x(8 downto 0);
+    else
+        -- Scrive nel Banco 1 della pagina selezionata
+        addr_temp := unsigned(reg_write_page) & '1' & reg_y(8 downto 0) & unsigned(reg_x - 320)(8 downto 0);
+    end if;
+    
+    pending_fifo_data <= std_logic_vector(addr_temp) & vga_wdata & reg_data_low;
+    pending_pixel_wr <= '1';
 
                     when x"6" => 
                         video_active_reg <= vga_wdata(0);
                         scanline_reg     <= vga_wdata(1);
+
+                    when x"7" => 
+                        reg_read_page  <= vga_wdata(4 downto 0); -- Numero pagina visualizzata
+                    when x"8" => 
+                        reg_write_page <= vga_wdata(4 downto 0); -- Numero pagina in scrittura
                     when others => null;
                 end case;
             end if;
 
             -- B) SMALTIMENTO IN FIFO
-            -- Se abbiamo un pacchetto pronto e c'è spazio, spariamolo dentro.
             if pending_pixel_wr = '1' and fifo_full = '0' then
                 fifo_wr_data <= pending_fifo_data;
                 fifo_wr_req  <= '1';
-                pending_pixel_wr <= '0'; -- Resetta la flag
+                pending_pixel_wr <= '0'; 
             end if;
 
         end if;
@@ -190,6 +198,7 @@ begin
         port map (
             clk             => clk_pixel,
             pixelOut        => sdr_pixel_out,
+            read_page       => reg_read_page, -- COLLEGAMENTO AGGIUNTO
             rowLoadNr       => vga_row_req_addr,
             rowLoadReq      => sdr_load_req,
             rowLoadAck      => sdr_load_ack,

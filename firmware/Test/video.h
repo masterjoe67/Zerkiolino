@@ -17,12 +17,14 @@
 /* --- DEFINIZIONI INDIRIZZI REGISTRI (Nuova Mappatura Arbitro) --- */
 // Nota: Uso uint8_t che è lo standard per SDCC (incluso in <stdint.h>)
 
-#define VIDEO_REG_X_L      (*(volatile uint8_t *)(0xC000))
-#define VIDEO_REG_X_H      (*(volatile uint8_t *)(0xC001))
-#define VIDEO_REG_Y_L      (*(volatile uint8_t *)(0xC002))
-#define VIDEO_REG_Y_H      (*(volatile uint8_t *)(0xC003))
-#define VIDEO_REG_DATA_L   (*(volatile uint8_t *)(0xC004))
-#define VIDEO_REG_DATA_H   (*(volatile uint8_t *)(0xC005))
+#define VIDEO_REG_X_L           (*(volatile uint8_t *)(0xC000))
+#define VIDEO_REG_X_H           (*(volatile uint8_t *)(0xC001))
+#define VIDEO_REG_Y_L           (*(volatile uint8_t *)(0xC002))
+#define VIDEO_REG_Y_H           (*(volatile uint8_t *)(0xC003))
+#define VIDEO_REG_DATA_L        (*(volatile uint8_t *)(0xC004))
+#define VIDEO_REG_DATA_H        (*(volatile uint8_t *)(0xC005))
+#define VIDEO_REG_READ_PAGE     (*(volatile uint8_t *)(0xC007))
+#define VIDEO_REG_WRITE_PAGE    (*(volatile uint8_t *)(0xC008))
 
 /* --- REGISTRI DI CONTROLLO E STATO (Mappati in Memoria) --- */
 #define VGA_REG_CTRL    (*(volatile uint8_t *)(0xC006)) // Era 0x18 IO
@@ -111,5 +113,9 @@ void vga_drawLine_Clipped(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, ui
 void draw_rgb_bars();
 
 void vga_print_int_safe(int32_t num);
+
+void vga_set_display_page(uint8_t page);
+
+void vga_set_work_page(uint8_t page);
 
 #endif // VIDEO_H

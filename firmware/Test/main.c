@@ -262,11 +262,16 @@ int main(void) {
     vga_set_cursor(0, 10);
 
 
-
-
+    vga_set_display_page(0);
+    vga_set_work_page(0);
+    vga_load_rgb333_full(1000);
+    vga_set_work_page(1);
+    vga_clear_screen(RED); // Nero
+    vga_load_rgb333_full(3400);
+    vga_set_display_page(1);
 
 //test_sd_card();
-vga_load_rgb333_full(1000);
+
 
 for(volatile int i=0; i<10000; i++);
 vga_clear_screen(BLACK); // Nero
